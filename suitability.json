@@ -1,0 +1,60 @@
+{
+  "format": 1,
+  "jobs": [
+    "video"
+  ],
+  "profiles": [
+    {
+      "id": "free",
+      "load": {
+        "concurrentPeople": 100
+      },
+      "cost": "free",
+      "regions": [
+        "any"
+      ],
+      "compliance": [],
+      "provider": {
+        "name": "LiveKit Cloud",
+        "tier": "Build",
+        "limitsSource": "https://livekit.io/pricing"
+      },
+      "notes": "Checked 2026-11-09 against https://livekit.io/pricing and https://docs.livekit.io/deploy/admin/quotas-and-limits/. LiveKit Cloud Build plan, $0 a month, no credit card: 100 participants connected at once (agents and end users), 5,000 WebRTC participant minutes a month and 50 GB downstream data transfer a month included. On Build the included allowance is a hard cap: new requests fail after it is used, with no overage charge. Server API limit 1,000 requests per minute. Standard data processing addendum. The open source media server can be self-hosted instead (pricing page); self-hosting is not profiled here."
+    },
+    {
+      "id": "paid",
+      "load": {
+        "concurrentPeople": 1000
+      },
+      "cost": "paid",
+      "regions": [
+        "any"
+      ],
+      "compliance": [],
+      "provider": {
+        "name": "LiveKit Cloud",
+        "tier": "Ship",
+        "limitsSource": "https://livekit.io/pricing"
+      },
+      "notes": "Checked 2026-11-09 against https://livekit.io/pricing. LiveKit Cloud Ship plan, starting at $50 a month: 1,000 participants connected at once, 150,000 WebRTC participant minutes included then $0.0005 per minute, 250 GB downstream data included then $0.12 per GB. Usage above the allowance is billed."
+    },
+    {
+      "id": "scale",
+      "load": {
+        "concurrentPeople": 5000
+      },
+      "cost": "paid",
+      "regions": [
+        "any"
+      ],
+      "compliance": [],
+      "provider": {
+        "name": "LiveKit Cloud",
+        "tier": "Scale",
+        "limitsSource": "https://livekit.io/pricing"
+      },
+      "notes": "Checked 2026-11-09 against https://livekit.io/pricing. LiveKit Cloud Scale plan, starting at $500 a month: 5,000 participants connected at once, 1.5 million WebRTC participant minutes included then $0.0004 per minute, 3 TB downstream data included then $0.10 per GB; adds region pinning and role-based access. Enterprise is custom and not profiled."
+    }
+  ],
+  "notes": "Local checks need no account and contact no provider. Deployment needs LiveKit credentials supplied by reference. Limits come only from the two LiveKit pages named in the profile notes; per-day request and stored-data limits do not apply to media and are omitted."
+}

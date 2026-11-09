@@ -1,0 +1,26 @@
+{
+  "revision": "19905b75dbea89fbfd424d67fe26c81aaed0e018",
+  "files": [
+    {
+      "path": "server/src/video.ts",
+      "sha256": "9dbcb55c525ee8b2582331d1728af061e94f7a7bce145ab7f638884fdfb10213"
+    },
+    {
+      "path": "web/src/video.ts",
+      "sha256": "010e934c349700363fa78386df7de4bc3e85320ccd90df9fc954827c1c693604"
+    },
+    {
+      "path": "ios/McInPoker/Sources/VideoSession.swift",
+      "sha256": "3d244c382eacbbef22bb92e37bb5806099cc7c2362b04c7480a8cbba91b3709e"
+    },
+    {
+      "path": "android/app/src/main/java/com/georgemcintyre/mcinpoker/video/VideoSession.kt",
+      "sha256": "c71c5615a400dc4d1d9c3850a20967aaa08c3d400b1b019f283713053327cf15"
+    },
+    {
+      "path": "ios/McInPokerTests/CameraTests.swift",
+      "sha256": "1ebc53eb285ea13e48f03b201f622ccae428dd5fb94a87ca65d0bd381726bab5"
+    }
+  ],
+  "changes": "Application identities and imports replaced with configuration/callbacks; generic platform helpers extracted; tests use neutral fixtures."
+}

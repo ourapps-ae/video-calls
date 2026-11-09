@@ -1,0 +1,49 @@
+{
+  "fixtureKind": "schema-0.5.0-simulation-not-native-execution",
+  "expectedTargets": {"MediaTests": "Unit test bundle"},
+  "summary": {
+    "title": "Synthetic media result",
+    "environmentDescription": "Parser fixture only",
+    "topInsights": [],
+    "result": "Passed",
+    "totalTestCount": 2,
+    "passedTests": 1,
+    "failedTests": 0,
+    "skippedTests": 1,
+    "expectedFailures": 0,
+    "statistics": [],
+    "devicesAndConfigurations": {
+      "device": {"deviceId": "fixture-device", "deviceName": "Fixture", "architecture": "arm64", "modelName": "Fixture", "osVersion": "0.0"},
+      "testPlanConfiguration": {"configurationId": "fixture-configuration", "configurationName": "Fixture"},
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 1,
+      "expectedFailures": 0
+    },
+    "testFailures": [],
+    "runtimeWarnings": []
+  },
+  "tests": {
+    "testPlanConfigurations": [{"configurationId": "fixture-configuration", "configurationName": "Fixture"}],
+    "devices": [{"deviceId": "fixture-device", "deviceName": "Fixture", "architecture": "arm64", "modelName": "Fixture", "osVersion": "0.0"}],
+    "testNodes": [{
+      "nodeType": "Test Plan",
+      "name": "Synthetic plan",
+      "result": "Passed",
+      "children": [{
+        "nodeType": "Unit test bundle",
+        "name": "MediaTests",
+        "result": "Passed",
+        "children": [{
+          "nodeType": "Test Suite",
+          "name": "SyntheticTests",
+          "result": "Passed",
+          "children": [
+            {"nodeType": "Test Case", "name": "testPassed()", "nodeIdentifier": "SyntheticTests/testPassed()", "result": "Passed", "durationInSeconds": 0.25},
+            {"nodeType": "Test Case", "name": "testSkipped()", "nodeIdentifier": "SyntheticTests/testSkipped()", "result": "Skipped", "children": [{"nodeType": "Skip Message", "name": "Synthetic skip"}]}
+          ]
+        }]
+      }]
+    }]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "apple": {
+    "LiveKit": "2.19.0",
+    "LiveKitFFI": "0.13.1",
+    "WebRTC": "150.7871.4",
+    "lock": "tests/native/apple/Package.resolved",
+    "host": "tests/native/apple/project.yml"
+  },
+  "android": {
+    "io.livekit:livekit-android": "2.29.0",
+    "org.jetbrains.kotlinx:kotlinx-coroutines-android": "1.10.2",
+    "org.jetbrains.kotlinx:kotlinx-coroutines-test": "1.10.2",
+    "org.mockito:mockito-core": "5.20.0",
+    "junit:junit": "4.13.2",
+    "lock": "tests/native/android/app/gradle.lockfile",
+    "checksums": "tests/native/android/gradle/verification-metadata.xml",
+    "host": "tests/native/android/app/build.gradle.kts"
+  },
+  "verification": "Android lifecycle doubles are local simulation. Phone and television test bundles and Catalyst app compile; Apple test execution and real provider interoperability remain unverified. Television simulator builds exclude x86_64 because LiveKitFFI is arm64-only there; arm64 compilation passes."
+}

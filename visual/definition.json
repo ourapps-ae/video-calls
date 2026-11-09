@@ -1,0 +1,59 @@
+{
+  "id": "ourapps-ae.video-calls",
+  "name": "Video calls",
+  "kind": "component",
+  "status": "example",
+  "package": "ourapps-ae/video-calls",
+  "version": "0.4.0",
+  "ports": [
+    {
+      "id": "configuration",
+      "name": "Host configuration",
+      "direction": "input",
+      "kind": "interface",
+      "type": "ae/video-calls-configuration",
+      "version": "1.0.0",
+      "required": false,
+      "cardinality": "one"
+    },
+    {
+      "id": "facility",
+      "name": "Video calls",
+      "direction": "output",
+      "kind": "interface",
+      "type": "ae/media-session",
+      "version": "1.0.0"
+    }
+  ],
+  "settings": [
+    {
+      "id": "enabled",
+      "name": "Enabled",
+      "type": "boolean",
+      "required": false,
+      "secret": false,
+      "default": true
+    },
+    {
+      "id": "serviceUrl",
+      "name": "Serviceurl",
+      "type": "string",
+      "required": false,
+      "secret": false
+    },
+    {
+      "id": "keyReference",
+      "name": "Keyreference",
+      "type": "string",
+      "required": false,
+      "secret": true
+    },
+    {
+      "id": "secretReference",
+      "name": "Secretreference",
+      "type": "string",
+      "required": false,
+      "secret": true
+    }
+  ]
+}

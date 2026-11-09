@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "id": "video-calls-connected",
+  "title": "Video calls connected example",
+  "status": "example",
+  "view": "component",
+  "focus": "component",
+  "definitions": [
+    {
+      "id": "ourapps-ae.video-calls",
+      "name": "Video calls",
+      "kind": "component",
+      "status": "example",
+      "package": "ourapps-ae/video-calls",
+      "version": "0.4.0",
+      "ports": [
+        {
+          "id": "configuration",
+          "name": "Host configuration",
+          "direction": "input",
+          "kind": "interface",
+          "type": "ae/video-calls-configuration",
+          "version": "1.0.0",
+          "required": false,
+          "cardinality": "one"
+        },
+        {
+          "id": "facility",
+          "name": "Video calls",
+          "direction": "output",
+          "kind": "interface",
+          "type": "ae/media-session",
+          "version": "1.0.0"
+        }
+      ],
+      "settings": [
+        {
+          "id": "enabled",
+          "name": "Enabled",
+          "type": "boolean",
+          "required": false,
+          "secret": false,
+          "default": true
+        },
+        {
+          "id": "serviceUrl",
+          "name": "Serviceurl",
+          "type": "string",
+          "required": false,
+          "secret": false
+        },
+        {
+          "id": "keyReference",
+          "name": "Keyreference",
+          "type": "string",
+          "required": false,
+          "secret": true
+        },
+        {
+          "id": "secretReference",
+          "name": "Secretreference",
+          "type": "string",
+          "required": false,
+          "secret": true
+        }
+      ]
+    },
+    {
+      "id": "configuration",
+      "name": "Example configuration",
+      "kind": "application",
+      "status": "example",
+      "revision": "0.1.0",
+      "ports": [
+        {
+          "id": "configuration",
+          "name": "Host configuration",
+          "direction": "output",
+          "kind": "interface",
+          "type": "ae/video-calls-configuration",
+          "version": "1.0.0"
+        }
+      ],
+      "settings": []
+    },
+    {
+      "id": "consumer",
+      "name": "Example consumer",
+      "kind": "application",
+      "status": "example",
+      "revision": "0.1.0",
+      "ports": [
+        {
+          "id": "facility",
+          "name": "Video calls",
+          "direction": "input",
+          "kind": "interface",
+          "type": "ae/media-session",
+          "version": "1.0.0",
+          "required": true,
+          "cardinality": "one"
+        }
+      ],
+      "settings": []
+    }
+  ],
+  "instances": [
+    {
+      "id": "component",
+      "name": "Video calls",
+      "definition": "ourapps-ae.video-calls",
+      "configuration": {}
+    },
+    {
+      "id": "configuration",
+      "name": "Example configuration",
+      "definition": "configuration",
+      "configuration": {}
+    },
+    {
+      "id": "consumer",
+      "name": "Example consumer",
+      "definition": "consumer",
+      "configuration": {}
+    }
+  ],
+  "connections": [
+    {
+      "source": {
+        "instance": "configuration",
+        "port": "configuration"
+      },
+      "target": {
+        "instance": "component",
+        "port": "configuration"
+      }
+    },
+    {
+      "source": {
+        "instance": "component",
+        "port": "facility"
+      },
+      "target": {
+        "instance": "consumer",
+        "port": "facility"
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+node_modules/
+__pycache__/
+.gradle/
+.packages/
+.package-cache/
+.derived-*/
+*.xcodeproj/
+build/

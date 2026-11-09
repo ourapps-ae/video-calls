@@ -1,0 +1,158 @@
+{
+  "id": "facility",
+  "type": "ae/media-session",
+  "version": "1.0.0",
+  "operations": {
+    "videoGrant": {
+      "arguments": [
+        "env:VideoEnv",
+        "tableId:string",
+        "playerId:string",
+        "name:string",
+        "now:number",
+        "publish:boolean",
+        "roomPrefix:string"
+      ],
+      "returns": "Promise<{url:string,token:string,room:string}|null>"
+    },
+    "listRooms": {
+      "arguments": [
+        "env:VideoEnv",
+        "now:number",
+        "roomPrefix:string",
+        "fetcher:typeof fetch"
+      ],
+      "returns": "Promise<{room:string,participants:string[]}[]|null>"
+    },
+    "connect": {
+      "arguments": [
+        "url:string",
+        "token:string",
+        "roomName:string"
+      ],
+      "returns": "Promise<void>"
+    },
+    "disconnect": {
+      "arguments": [],
+      "returns": "void"
+    },
+    "hold": {
+      "arguments": [
+        "on:boolean"
+      ],
+      "returns": "void"
+    },
+    "setMic": {
+      "arguments": [
+        "on:boolean"
+      ],
+      "returns": "Promise<void>"
+    },
+    "setCam": {
+      "arguments": [
+        "on:boolean"
+      ],
+      "returns": "Promise<void>"
+    },
+    "setSpeaker": {
+      "arguments": [
+        "on:boolean"
+      ],
+      "returns": "void"
+    },
+    "armIdle": {
+      "arguments": [],
+      "returns": "void"
+    },
+    "resume": {
+      "arguments": [],
+      "returns": "void"
+    },
+    "close": {
+      "arguments": [],
+      "returns": "void"
+    },
+    "videoEnvironment": {
+      "arguments": [
+        "settings:{enabled?:boolean,serviceUrl?:string}",
+        "secrets:{apiKey?:string,apiSecret?:string}"
+      ],
+      "returns": "VideoEnv (empty unless enabled and complete; https serviceUrl becomes the wss form)"
+    }
+  },
+  "exports": {
+    "verification/browser-process.mjs": [
+      "launchOwnedBrowser(options:{profileRoot:string,timeoutMilliseconds?:number}):Promise<{browser:Browser,close:()=>Promise<void>}>; requires runner-issued AEPM_PRIVATE_ROOT"
+    ],
+    "verification/provider.mjs": [
+      "verifyMedia(context:SanitizedExecutionContext,dependencies:ProviderDependencies):Promise<HelperResult>; exact records and dependency operations: interfaces/verification.md"
+    ],
+    "verification/adapters.mjs": [
+      "createProviderDependencies(context:SanitizedExecutionContext,options?:{applicationClients?:ApplicationClients}):Promise<ProviderDependencies>",
+      "cleanupProvider(context:SanitizedExecutionContext):Promise<CleanupResult>; code-only bridge: interfaces/verification.md"
+    ],
+    "verification/result.mjs": [
+      "readContext():Promise<SanitizedExecutionContext>",
+      "writeResult(result:HelperResult):Promise<void>",
+      "writeCleanupResult(result:CleanupResult):Promise<void>"
+    ],
+    "verification/native.py": [
+      "prepare_apple(context,*,project,scheme,derived_data,package_cache)",
+      "run_apple(context,*,project,scheme,derived_data,package_cache,expected_targets,test_settings=None)->dict; expected_targets is a mandatory exact name-to-bundle-type mapping",
+      "prepare_android(context,*,project,tasks)",
+      "run_android(context,*,project,tasks,artifact_paths)->dict",
+      "cleanup_native(context)->dict",
+      "environment(context)->dict[str,str]",
+      "read_context()->dict; write_result(result); write_cleanup_result(result)"
+    ],
+    "verification/apple_results.py": [
+      "validate_expected_targets(value:Mapping[str,str])->dict[str,str]",
+      "parse_apple_results(summary:dict,tests:dict,expected_targets:Mapping[str,str])->dict; guarded single-run schema0.5.0 coverage",
+      "extract_apple_results(bundle,expected_targets,*,env,deadline,query=None,clock=None)->dict"
+    ],
+    "server/video.ts": [
+      "VideoEnv",
+      "VideoGrant = {url:string,token:string,room:string} | null",
+      "videoGrant(env:VideoEnv,tableId:string,playerId:string,name:string,now:number,publish:boolean,roomPrefix:string):Promise<VideoGrant>",
+      "listRooms(env:VideoEnv,now:number,roomPrefix:string,fetcher:typeof fetch=fetch):Promise<{room:string,participants:string[]}[]|null>"
+    ],
+    "web/video.ts": [
+      "Video(onChange:()=>void,settings:{canCapture:()=>boolean,soundOn:()=>boolean,modeEvent:string})",
+      "connect(url:string,token:string,roomName:string):Promise<void>; disconnect():void; close():void; hold(on:boolean):void; setMic(on:boolean):Promise<void>; setCam(on:boolean):Promise<void>; setSpeaker(on:boolean):void; armIdle():void; resume():void",
+      "hasVideo(playerId:string,isMe:boolean):boolean; monitor(playerId:string,isMe:boolean,name:string,width:number,aspect:number=0.75):HTMLElement; cell(playerId:string,isMe:boolean,initial:string):HTMLElement",
+      "room, connected, micOn, camOn, camUsable, paused, failed, granted, stalled"
+    ],
+    "apple/Sources/VideoSession.swift": [
+      "@MainActor final class VideoSession: RoomDelegate; init(cameraCapture:(any CameraCaptureProviding)?=nil,defaults:UserDefaults=.standard,soundOn:@escaping ()->Bool,soundChanged:@escaping (Bool)->Void,canCapture:@escaping ()->Bool)",
+      "CameraDevice: Identifiable, Equatable {let id:String; let name:String}; @MainActor protocol CameraCaptureProviding {func devices() async throws -> [CameraDevice]; func apply(enabled:Bool,deviceID:String?,in room:Room) async throws}",
+      "connect(url:String,token:String,roomName:String)->Void; disconnect()->Void; hold(_ on:Bool)->Void; setMic(_ on:Bool)->Void; setCam(_ on:Bool)->Void; setSound(_ on:Bool)->Void; background()->Void; foreground()->Void; pauseForIdle()->Void; resumeFromPause()->Void",
+      "refreshCameras() async -> Void; selectCamera(_ id:String)->Void; waitForCameraUpdate() async -> Void; hasVideo(_ playerId:String,isMe:Bool)->Bool; static var offersCameraSelection:Bool"
+    ],
+    "android/src/main/java/ae/video/VideoSession.kt": [
+      "ae.video.VideoSession(context:android.content.Context,canCapture:()->Boolean)",
+      "connect(url:String,token:String,roomName:String):Unit; disconnect():Unit; forget():Unit; close():Unit; hold(on:Boolean):Unit; setMic(on:Boolean):Unit; setCam(on:Boolean):Unit; setSpeaker(on:Boolean):Unit; background():Unit; foreground():Unit; pauseForIdle():Unit; resumeFromPause():Unit",
+      "room:StateFlow<Room?>; micOn,camOn,camUsable,paused,failed,held:StateFlow<Boolean>; tracksVersion:StateFlow<Int>"
+    ]
+  },
+  "requirements": {
+    "configuration": "Runtime server environment supplies LIVEKIT_URL, LIVEKIT_API_KEY and LIVEKIT_API_SECRET outside source. Caller supplies roomPrefix including its separator, authenticated participant identity, display/capture callback, sound callbacks and event name. No credentials are collected into source templates."
+  },
+  "buildInputs": "Browser livekit-client 2.23.0 and TypeScript 5.9.3 are locked in package-lock.json. Server uses WebCrypto only. interfaces/native-dependencies.json identifies resolved native locks, checksums and standalone Apple/Android hosts. Android controlled lifecycle tests use the internal roomFactory/scope constructor; public construction is unchanged. Apple test execution and provider interoperability remain unverified.",
+  "configurationPort": {
+    "id": "configuration",
+    "type": "ae/video-calls-configuration",
+    "version": "1.0.0"
+  },
+  "lifecycle": {
+    "browser": "Constructor registers modeEvent. Publish initial display mode before connecting. A false canCapture callback on that event disconnects and forgets the grant. close disconnects and removes the listener. Hold preserves preferences; idle disconnect retains a retry grant. Generation checks reject stale completion.",
+    "apple": "Call on the main actor. Native caller disconnects immediately on display entry; the callback alone does not stop an already active track. disconnect forgets the grant; pauseForIdle saves it for resumeFromPause. background stops camera and preserves microphone preference. Sound storage belongs to soundOn/soundChanged callbacks.",
+    "android": "Call from the main thread. Native caller calls forget on display entry or room leave. disconnect releases the room but retains the grant for idle retry; forget clears it; close forgets and cancels the session scope. background stops camera and preserves microphone preference.",
+    "server": "Authenticated recipe supplies participant identity and room prefix including separator, uses publish=false for spectators, and issues no display grant. Room routes independently enforce authentication and privacy. listRooms converts ws/wss to http/https and preserves host/port/base path; unsupported/malformed addresses or credentials/query/fragment return null without fetching. Account-wide listing before prefix filtering is unchanged."
+  },
+  "settings": {
+    "enabled": "boolean, default true; false makes videoEnvironment empty so no grant is issued",
+    "serviceUrl": "http or https address of the LiveKit service (optional)",
+    "keyReference": "secret reference to the LiveKit API key (optional)",
+    "secretReference": "secret reference to the LiveKit API secret (optional)"
+  }
+}

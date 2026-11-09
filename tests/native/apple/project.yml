@@ -1,0 +1,70 @@
+name: MediaHost
+packages:
+  LiveKit:
+    url: https://github.com/livekit/client-sdk-swift
+    exactVersion: 2.19.0
+options:
+  bundleIdPrefix: app.example.media
+  deploymentTarget:
+    iOS: "17.0"
+    tvOS: "17.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    GENERATE_INFOPLIST_FILE: YES
+    CODE_SIGNING_ALLOWED: NO
+    MARKETING_VERSION: 0.1.0
+    CURRENT_PROJECT_VERSION: 1
+targets:
+  MediaHost:
+    type: application
+    supportedDestinations: [iOS, macCatalyst]
+    sources:
+      - Host.swift
+      - ../../../implementation/apple/Sources
+    dependencies:
+      - package: LiveKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.example.media.host
+        TARGETED_DEVICE_FAMILY: "1,2"
+        "MACOSX_DEPLOYMENT_TARGET[sdk=macosx*]": "14.0"
+    scheme:
+      testTargets: [MediaTests]
+  MediaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - ../../apple/CameraTests.swift
+      - LifecycleTests.swift
+      - ../../../implementation/apple/Sources
+    dependencies:
+      - target: MediaHost
+      - package: LiveKit
+  MediaTelevision:
+    type: application
+    platform: tvOS
+    sources:
+      - Host.swift
+      - ../../../implementation/apple/Sources
+    dependencies:
+      - package: LiveKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.example.media.television
+        "EXCLUDED_ARCHS[sdk=appletvsimulator*]": x86_64
+    scheme:
+      testTargets: [MediaTelevisionTests]
+  MediaTelevisionTests:
+    type: bundle.unit-test
+    platform: tvOS
+    sources:
+      - ../../apple/CameraTests.swift
+      - LifecycleTests.swift
+      - ../../../implementation/apple/Sources
+    dependencies:
+      - target: MediaTelevision
+      - package: LiveKit
+    settings:
+      base:
+        "EXCLUDED_ARCHS[sdk=appletvsimulator*]": x86_64
