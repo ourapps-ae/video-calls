@@ -1,0 +1,1469 @@
+{
+  "openrpc": "1.3.2",
+  "info": {
+    "title": "ae/media-session",
+    "version": "1.0.0",
+    "description": "Verification helpers for ae/media-session that aepm's runner and package-owned check scripts call under an authorised execution context (installed under components/video-calls/verification; npm ci --prefix components/video-calls --ignore-scripts installs their dependencies). JavaScript modules provider.mjs, adapters.mjs, result.mjs and browser-process.mjs (tagged javascript); Python modules native.py and apple_results.py (tagged python, keyword arguments after context). Results are canonical JSON with no grants, credentials or raw provider output. Simulation with simulationKind fixture uses fixture.mjs, whose frame counts are simulated; a local fixture or local provider does not establish deployed interoperability. Provider service requests need exact paired socket and service origins and configured base paths; redirects fail; account-wide ListRooms needs list-account-rooms; room creation needs a recorded run intent and deletion also checks the recorded identity and the provider's creation metadata.",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "methods": [
+    {
+      "name": "verifyMedia",
+      "description": "Creates one room named <ephemeralRoomPrefix>-<runId>-0 (recorded before and after creation), joins publisher, subscriber and spectator with production grants, checks the spectator cannot publish, synthetic frames arrive and survive a reconnect, the room is listed (when asserted), display entry stops capture and close stops media, then deletes the room. Observations: publisher-joined, subscriber-joined, subscriber-publish-denied, synthetic-track-received, reconnected, room-listed, board-capture-denied, media-stopped-on-close, room-deleted.",
+      "params": [
+        {
+          "name": "context",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExecutionContext"
+          }
+        },
+        {
+          "name": "dependencies",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ProviderDependencies"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "schema": {
+          "$ref": "#/components/schemas/HelperResult"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "javascript"
+        }
+      ]
+    },
+    {
+      "name": "createProviderDependencies",
+      "description": "The fixture dependencies in simulation fixture mode, else live adapters over the provider service and owned or application browser pages.",
+      "params": [
+        {
+          "name": "context",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExecutionContext"
+          }
+        },
+        {
+          "name": "options",
+          "required": false,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "applicationClients": {
+                "$ref": "#/components/schemas/ApplicationClients"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "result": {
+        "name": "dependencies",
+        "schema": {
+          "$ref": "#/components/schemas/ProviderDependencies"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "javascript"
+        }
+      ]
+    },
+    {
+      "name": "cleanupProvider",
+      "description": "Deletes every provider room this run recorded that still carries the run's metadata.",
+      "params": [
+        {
+          "name": "context",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExecutionContext"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "schema": {
+          "$ref": "#/components/schemas/CleanupResult"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "javascript"
+        }
+      ]
+    },
+    {
+      "name": "readContext",
+      "description": "Reads and checks AEPM_CONTEXT_FILE.",
+      "params": [],
+      "result": {
+        "name": "context",
+        "schema": {
+          "$ref": "#/components/schemas/ExecutionContext"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "javascript"
+        }
+      ]
+    },
+    {
+      "name": "writeResult",
+      "description": "Writes the result atomically to AEPM_RESULT_FILE.",
+      "params": [
+        {
+          "name": "result",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/HelperResult"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "javascript"
+        }
+      ]
+    },
+    {
+      "name": "writeCleanupResult",
+      "description": "Writes the result atomically to AEPM_CLEANUP_RESULT_FILE.",
+      "params": [
+        {
+          "name": "result",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/CleanupResult"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "javascript"
+        }
+      ]
+    },
+    {
+      "name": "launchOwnedBrowser",
+      "description": "Starts the Chromium pinned by Playwright 1.64.1 from the private cache under AEPM_PRIVATE_ROOT, non-detached, headless with fake media devices and a private profile, and connects over the DevTools endpoint. close sends Browser.close, waits for the child and escalates to SIGTERM then SIGKILL within fixed deadlines; profiles remain for the parent's cleanup.",
+      "params": [
+        {
+          "name": "options",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "profileRoot": {
+                "type": "string",
+                "description": "Absolute, private (mode 0700), beneath AEPM_PRIVATE_ROOT; with a context, its profiles/browser."
+              },
+              "timeoutMilliseconds": {
+                "type": "integer",
+                "description": "Defaults to 30000.",
+                "minimum": 1,
+                "maximum": 60000
+              }
+            },
+            "required": [
+              "profileRoot"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "result": {
+        "name": "owned",
+        "schema": {
+          "type": "object",
+          "required": [
+            "browser",
+            "close"
+          ],
+          "properties": {
+            "browser": {
+              "description": "Playwright Browser."
+            },
+            "close": {
+              "description": "Function () => Promise<void>."
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "javascript"
+        }
+      ]
+    },
+    {
+      "name": "read_context",
+      "description": "Reads and checks AEPM_CONTEXT_FILE.",
+      "params": [],
+      "result": {
+        "name": "context",
+        "schema": {
+          "$ref": "#/components/schemas/ExecutionContext"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "write_result",
+      "description": "Writes the result to AEPM_RESULT_FILE.",
+      "params": [
+        {
+          "name": "result",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/HelperResult"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "write_cleanup_result",
+      "description": "Writes the result to AEPM_CLEANUP_RESULT_FILE.",
+      "params": [
+        {
+          "name": "result",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/CleanupResult"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "environment",
+      "description": "The child process environment for native tools.",
+      "params": [
+        {
+          "name": "context",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExecutionContext"
+          }
+        }
+      ],
+      "result": {
+        "name": "environment",
+        "schema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "prepare_apple",
+      "description": "Needs create-temporary-simulator and native-test, an already built project, and applePlatform ios-simulator or tvos-simulator. Creates a fresh private simulator set at profiles/apple/<runId> beside the context file, records the device before booting it, and boots it.",
+      "params": [
+        {
+          "name": "context",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExecutionContext"
+          }
+        },
+        {
+          "name": "project",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "Path."
+          }
+        },
+        {
+          "name": "scheme",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "derived_data",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "Path holding Build/Products."
+          }
+        },
+        {
+          "name": "package_cache",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "Path."
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "run_apple",
+      "description": "Runs test-without-building on the recorded device only, with literal sorted NAME=value test settings before the fixed signing and action arguments, then reads the result bundle with extract_apple_results and writes the target coverage as an artefact. Observations: build-produced, tests-discovered, tests-executed, tests-passed.",
+      "params": [
+        {
+          "name": "context",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExecutionContext"
+          }
+        },
+        {
+          "name": "project",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "Path."
+          }
+        },
+        {
+          "name": "scheme",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "derived_data",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "Path holding Build/Products."
+          }
+        },
+        {
+          "name": "package_cache",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "Path."
+          }
+        },
+        {
+          "name": "expected_targets",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExpectedTargets"
+          }
+        },
+        {
+          "name": "test_settings",
+          "required": false,
+          "schema": {
+            "type": "object",
+            "maxProperties": 32,
+            "propertyNames": {
+              "pattern": "^[A-Z][A-Z0-9_]{0,63}$",
+              "maxLength": 64
+            },
+            "additionalProperties": {
+              "type": "string",
+              "description": "HTTP loopback origin with an explicit port and no credentials, query, fragment or path.",
+              "pattern": "^http://(localhost|127\\.0\\.0\\.1|\\[::1\\]):[0-9]{1,5}/?$"
+            },
+            "description": "Names end in _TEST_SERVER_ADDRESS."
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "schema": {
+          "$ref": "#/components/schemas/HelperResult"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "prepare_android",
+      "description": "Needs native-build and native-test; prepares the Gradle project offline with the validated Java and automatic discovery and download disabled.",
+      "params": [
+        {
+          "name": "context",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExecutionContext"
+          }
+        },
+        {
+          "name": "project",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "tasks",
+          "required": true,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "run_android",
+      "description": "Runs the Gradle tasks offline (on a private emulator for connected Android tests, cleaned up afterwards) and counts the JUnit results. Observations: build-produced, tests-discovered, tests-executed, tests-passed.",
+      "params": [
+        {
+          "name": "context",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExecutionContext"
+          }
+        },
+        {
+          "name": "project",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "tasks",
+          "required": true,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "name": "artifact_paths",
+          "required": true,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "schema": {
+          "$ref": "#/components/schemas/HelperResult"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "cleanup_native",
+      "description": "Deletes the run's recorded simulator and emulator profiles, within fixed time limits, using only the private set and the recorded identity.",
+      "params": [
+        {
+          "name": "context",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExecutionContext"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "schema": {
+          "$ref": "#/components/schemas/CleanupResult"
+        }
+      },
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "validate_expected_targets",
+      "description": "The mapping sorted by name, or context-invalid.",
+      "params": [
+        {
+          "name": "value",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExpectedTargets"
+          }
+        }
+      ],
+      "result": {
+        "name": "targets",
+        "schema": {
+          "$ref": "#/components/schemas/ExpectedTargets"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "parse_apple_results",
+      "description": "Counts identified ordinary Test Case nodes per target from xcresulttool schema 0.5.0 summary and test tree (nodeIdentifierURL preferred over nodeIdentifier). Each expected target must appear once with non-skipped execution and no failures or expected failures, and the five summary counts must reconcile; unknown outcomes, duplicate identities, nested cases and Arguments, Repetition or Test Case Run layouts fail.",
+      "params": [
+        {
+          "name": "summary",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        },
+        {
+          "name": "tests",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        },
+        {
+          "name": "expected_targets",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExpectedTargets"
+          }
+        }
+      ],
+      "result": {
+        "name": "coverage",
+        "schema": {
+          "$ref": "#/components/schemas/TargetCoverage"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    },
+    {
+      "name": "extract_apple_results",
+      "description": "Queries the result bundle's summary and test tree with xcresulttool (within 30 seconds and 8 MiB; at most 100000 nodes, depth 64) and returns parse_apple_results of them.",
+      "params": [
+        {
+          "name": "bundle",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "Path of the .xcresult bundle."
+          }
+        },
+        {
+          "name": "expected_targets",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/ExpectedTargets"
+          }
+        },
+        {
+          "name": "env",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "name": "deadline",
+          "required": true,
+          "schema": {
+            "type": "number",
+            "description": "time.monotonic() deadline."
+          }
+        },
+        {
+          "name": "query",
+          "required": false,
+          "schema": {
+            "description": "Function replaces the xcresulttool call."
+          }
+        },
+        {
+          "name": "clock",
+          "required": false,
+          "schema": {
+            "description": "Function replaces time.monotonic."
+          }
+        }
+      ],
+      "result": {
+        "name": "coverage",
+        "schema": {
+          "$ref": "#/components/schemas/TargetCoverage"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/HelperError"
+        }
+      ],
+      "tags": [
+        {
+          "name": "python"
+        }
+      ],
+      "paramStructure": "by-name"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "ExecutionContext": {
+        "type": "object",
+        "description": "The sanitised execution context aepm writes to AEPM_CONTEXT_FILE (the fields these helpers read).",
+        "required": [
+          "format",
+          "runId",
+          "package",
+          "id",
+          "operations",
+          "assertions"
+        ],
+        "properties": {
+          "format": {
+            "const": 1
+          },
+          "runId": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "package": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "id": {
+            "type": "string"
+          },
+          "operations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Authorised operations, for example create-room, delete-created-room, join-room, publish-synthetic-media, subscribe-media, list-account-rooms, create-temporary-simulator, native-build, native-test."
+          },
+          "assertions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Assertion ids the result must report."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "simulation",
+              "live"
+            ]
+          },
+          "simulationKind": {
+            "type": "string",
+            "enum": [
+              "fixture",
+              "local-provider"
+            ]
+          },
+          "origins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Origins the run may reach."
+          },
+          "settings": {
+            "type": "object",
+            "properties": {
+              "livekitUrl": {
+                "type": "string",
+                "description": "ws, wss, http or https; live mode needs wss or https, simulation needs a loopback host."
+              },
+              "ephemeralRoomPrefix": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,63}$"
+              },
+              "maximumSeconds": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "applePlatform": {
+                "type": "string",
+                "enum": [
+                  "ios-simulator",
+                  "tvos-simulator"
+                ]
+              },
+              "appleDeviceType": {
+                "type": "string"
+              },
+              "appleRuntime": {
+                "type": "string"
+              }
+            }
+          },
+          "secrets": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "version": {}
+              },
+              "required": [
+                "version"
+              ],
+              "additionalProperties": true
+            },
+            "description": "Secret name (livekitKey, livekitSecret) to the version aepm resolved; values come from AEPM_SECRETS_FILE."
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "path"
+              ],
+              "additionalProperties": true
+            }
+          }
+        }
+      },
+      "Assertion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "actual": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "null for process-tree-terminated and unobserved assertions."
+          }
+        },
+        "required": [
+          "id",
+          "passed",
+          "actual"
+        ],
+        "additionalProperties": false
+      },
+      "Resource": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "provider-room",
+              "apple-device",
+              "android-device"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "createdByRunId": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "created": {
+            "type": "boolean"
+          },
+          "cleaned": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "kind",
+          "id",
+          "namespace",
+          "createdByRunId",
+          "created",
+          "cleaned"
+        ],
+        "additionalProperties": false
+      },
+      "Cleanup": {
+        "type": "object",
+        "properties": {
+          "required": {
+            "type": "boolean"
+          },
+          "attempted": {
+            "type": "boolean"
+          },
+          "completed": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "",
+              "cleanup-failed"
+            ]
+          }
+        },
+        "required": [
+          "required",
+          "attempted",
+          "completed",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "Artifact": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Relative to the working directory."
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "architecture": {
+            "type": "null"
+          }
+        },
+        "required": [
+          "path",
+          "digest",
+          "architecture"
+        ],
+        "additionalProperties": false
+      },
+      "HelperResult": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "const": 1
+          },
+          "runId": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "package": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "id": {
+            "type": "string"
+          },
+          "assertions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Assertion"
+            },
+            "description": "One per context assertion, sorted by id."
+          },
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Artifact"
+            }
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Resource"
+            }
+          },
+          "cleanup": {
+            "$ref": "#/components/schemas/Cleanup"
+          }
+        },
+        "required": [
+          "format",
+          "runId",
+          "package",
+          "id",
+          "assertions",
+          "artifacts",
+          "resources",
+          "cleanup"
+        ],
+        "additionalProperties": false,
+        "description": "Written in canonical JSON to AEPM_RESULT_FILE. Holds no grants, credentials or raw provider output."
+      },
+      "CleanupResult": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "const": 1
+          },
+          "runId": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "package": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "id": {
+            "type": "string"
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Resource"
+            }
+          },
+          "cleanup": {
+            "$ref": "#/components/schemas/Cleanup"
+          }
+        },
+        "required": [
+          "format",
+          "runId",
+          "package",
+          "id",
+          "resources",
+          "cleanup"
+        ],
+        "additionalProperties": false,
+        "description": "Written in canonical JSON to AEPM_CLEANUP_RESULT_FILE."
+      },
+      "ProviderRoom": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "aepmRunId": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "aepmRunId"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "metadata"
+        ],
+        "additionalProperties": false
+      },
+      "Client": {
+        "type": "object",
+        "description": "One browser participant. Every function is asynchronous.",
+        "required": [
+          "connect",
+          "publishSynthetic",
+          "disconnect",
+          "reconnect",
+          "enterDisplay",
+          "close",
+          "waitForFrames",
+          "attemptPublish",
+          "activeCaptureCount"
+        ],
+        "properties": {
+          "connect": {
+            "description": "Function () => Promise<void>."
+          },
+          "publishSynthetic": {
+            "description": "Function () => Promise<void>."
+          },
+          "disconnect": {
+            "description": "Function () => Promise<void>."
+          },
+          "reconnect": {
+            "description": "Function () => Promise<void>."
+          },
+          "enterDisplay": {
+            "description": "Function () => Promise<void>."
+          },
+          "close": {
+            "description": "Function () => Promise<void>; stops media."
+          },
+          "waitForFrames": {
+            "description": "Function (minimum: number, timeoutMilliseconds: number) => Promise<number>."
+          },
+          "attemptPublish": {
+            "description": "Function () => Promise<boolean>."
+          },
+          "activeCaptureCount": {
+            "description": "Function () => Promise<number>."
+          }
+        }
+      },
+      "ProviderDependencies": {
+        "type": "object",
+        "description": "Exactly these keys.",
+        "required": [
+          "Video",
+          "videoGrant",
+          "listRooms",
+          "createRoom",
+          "getRoom",
+          "deleteRoom",
+          "createClients",
+          "readSecrets",
+          "now"
+        ],
+        "properties": {
+          "Video": {
+            "description": "Function the browser Video class."
+          },
+          "videoGrant": {
+            "description": "Function the production videoGrant (identities mapped to the application's when applicationClients is given)."
+          },
+          "listRooms": {
+            "description": "Function (env, now, prefix) => the production listRooms through the checking fetch."
+          },
+          "createRoom": {
+            "description": "Function ({ name: string, metadata: { aepmRunId: string } }) => Promise<ProviderRoom>."
+          },
+          "getRoom": {
+            "description": "Function (id: string) => Promise<ProviderRoom | null>."
+          },
+          "deleteRoom": {
+            "description": "Function (id: string) => Promise<void>."
+          },
+          "createClients": {
+            "description": "Function ({ room, publisherGrant, subscriberGrant, spectatorGrant }) => Promise<{ publisher: Client, subscriber: Client, spectator: Client }>."
+          },
+          "readSecrets": {
+            "description": "Function () => Promise<{ livekitKey: string, livekitSecret: string }>."
+          },
+          "now": {
+            "description": "Function () => integer Unix milliseconds."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApplicationClients": {
+        "type": "object",
+        "description": "Code-owned application pages for a provider check through the real application. Identities and pages are distinct per role and prepared before grants are made.",
+        "required": [
+          "pages",
+          "identities",
+          "applyGrants",
+          "enterDisplay",
+          "observe"
+        ],
+        "properties": {
+          "pages": {
+            "type": "object",
+            "properties": {
+              "publisher": {
+                "description": "Playwright Page."
+              },
+              "subscriber": {
+                "description": "Playwright Page."
+              },
+              "spectator": {
+                "description": "Playwright Page."
+              }
+            },
+            "required": [
+              "publisher",
+              "subscriber",
+              "spectator"
+            ],
+            "additionalProperties": false
+          },
+          "identities": {
+            "type": "object",
+            "properties": {
+              "publisher": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name"
+                ],
+                "additionalProperties": false
+              },
+              "subscriber": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name"
+                ],
+                "additionalProperties": false
+              },
+              "spectator": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "publisher",
+              "subscriber",
+              "spectator"
+            ],
+            "additionalProperties": false
+          },
+          "applyGrants": {
+            "description": "Function ({ room, publisherGrant, subscriberGrant, spectatorGrant }) => Promise<void>; binds the application's actual Video through mediaVerification.bindVideo, then awaits the real join responses."
+          },
+          "enterDisplay": {
+            "description": "Function (role, page) => Promise<void>; the application's own display transition."
+          },
+          "observe": {
+            "description": "Function (role, phase: connected | frames | display | closing, page) => Promise<void>."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExpectedTargets": {
+        "type": "object",
+        "minProperties": 1,
+        "maxProperties": 32,
+        "propertyNames": {
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f]+$"
+        },
+        "additionalProperties": {
+          "type": "string",
+          "enum": [
+            "Unit test bundle",
+            "UI test bundle"
+          ]
+        },
+        "description": "Exact target name to bundle type."
+      },
+      "TargetCoverage": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "const": "0.5.0"
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "bundleType": {
+                  "type": "string",
+                  "enum": [
+                    "Unit test bundle",
+                    "UI test bundle"
+                  ]
+                },
+                "passed": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "failed": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "skipped": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "expectedFailures": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "discovered": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "executed": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "name",
+                "bundleType",
+                "passed",
+                "failed",
+                "skipped",
+                "expectedFailures",
+                "discovered",
+                "executed"
+              ],
+              "additionalProperties": false
+            },
+            "description": "Sorted by name."
+          },
+          "discovered": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "executed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "targets",
+          "discovered",
+          "executed",
+          "failed"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "errors": {
+      "HelperError": {
+        "code": 1,
+        "message": "Helper error",
+        "data": {
+          "type": "string",
+          "enum": [
+            "context-missing",
+            "context-invalid",
+            "authorization-denied",
+            "secret-unavailable",
+            "assertion-failed",
+            "result-missing",
+            "result-invalid",
+            "resource-missing",
+            "tool-unavailable",
+            "cleanup-failed"
+          ],
+          "description": "The Error message (JavaScript) or ValueError argument (Python)."
+        }
+      }
+    }
+  }
+}

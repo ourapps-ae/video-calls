@@ -1,486 +1,102 @@
 {
-  "format": 2,
-  "kind": "component",
-  "identity": {
-    "name": "ourapps-ae/video-calls",
-    "version": "0.4.0",
-    "sourceRevision": "19905b75dbea89fbfd424d67fe26c81aaed0e018",
-    "sourceTreeDigest": "0000000000000000000000000000000000000000000000000000000000000000",
-    "licenceStatus": "deferred"
-  },
-  "facilities": [
-    {
-      "id": "media-session",
-      "description": "Signed room grants and browser, Apple and Android media lifecycle."
-    }
-  ],
-  "documents": {
-    "contract": "CONTRACT.md",
-    "interfaces": [
-      "interfaces/contract.json",
-      "interfaces/required/configuration.json",
-      "interfaces/verification.md",
-      "suitability.json"
-    ],
-    "examples": [
-      "examples/consumer.ts"
-    ],
-    "licenceNotice": "LICENCE"
-  },
-  "collect": [
-    {
-      "id": "enabled",
-      "type": "boolean",
-      "grammar": "boolean",
-      "required": false,
-      "secret": false,
-      "default": true
-    },
-    {
-      "id": "serviceUrl",
-      "type": "string",
-      "grammar": "address",
-      "required": false,
-      "secret": false
-    },
-    {
-      "id": "keyReference",
-      "type": "string",
-      "grammar": "identifier",
-      "required": false,
-      "secret": true
-    },
-    {
-      "id": "secretReference",
-      "type": "string",
-      "grammar": "identifier",
-      "required": false,
-      "secret": true
-    }
-  ],
-  "files": [
-    {
-      "path": "CONTRACT.md",
-      "executable": false
-    },
-    {
-      "path": "INSTRUCTIONS.md",
-      "executable": false
-    },
-    {
-      "path": "LICENCE",
-      "executable": false
-    },
-    {
-      "path": "SOURCE.json",
-      "executable": false
-    },
-    {
-      "path": "SOURCE.md",
-      "executable": false
-    },
-    {
-      "path": "examples/consumer.ts",
-      "executable": false
-    },
-    {
-      "path": "implementation/android/src/main/java/ae/video/VideoSession.kt",
-      "executable": false
-    },
-    {
-      "path": "implementation/apple/Sources/VideoSession.swift",
-      "executable": false
-    },
-    {
-      "path": "implementation/server/video.ts",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/adapters.mjs",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/apple_results.py",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/binding.ts",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/browser-process-core.mjs",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/browser-process.mjs",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/browser.ts",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/fixture.mjs",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/native.py",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/prepare-provider.mjs",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/provider-runner.mjs",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/provider.mjs",
-      "executable": false
-    },
-    {
-      "path": "implementation/verification/result.mjs",
-      "executable": false
-    },
-    {
-      "path": "implementation/web/video.ts",
-      "executable": false
-    },
-    {
-      "path": "interfaces/contract.json",
-      "executable": false
-    },
-    {
-      "path": "interfaces/native-dependencies.json",
-      "executable": false
-    },
-    {
-      "path": "interfaces/required/configuration.json",
-      "executable": false
-    },
-    {
-      "path": "interfaces/verification.md",
-      "executable": false
-    },
-    {
-      "path": "package-lock.json",
-      "executable": false
-    },
-    {
-      "path": "package.json",
-      "executable": false
-    },
-    {
-      "path": "scripts/capture-apple-schemas.py",
-      "executable": false
-    },
-    {
-      "path": "scripts/check-android-locks.py",
-      "executable": false
-    },
-    {
-      "path": "scripts/check-android.py",
-      "executable": false
-    },
-    {
-      "path": "scripts/check-apple.py",
-      "executable": false
-    },
-    {
-      "path": "scripts/platform-check.mjs",
-      "executable": false
-    },
-    {
-      "path": "scripts/platform-check.py",
-      "executable": false
-    },
-    {
-      "path": "suitability.json",
-      "executable": false
-    },
-    {
-      "path": "tests/apple/CameraTests.swift",
-      "executable": false
-    },
-    {
-      "path": "tests/browser-process.test.mjs",
-      "executable": false
-    },
-    {
-      "path": "tests/fixtures/apple-single-run.json",
-      "executable": false
-    },
-    {
-      "path": "tests/fixtures/dependency-metadata-provenance.json",
-      "executable": false
-    },
-    {
-      "path": "tests/fixtures/livekit.mjs",
-      "executable": false
-    },
-    {
-      "path": "tests/fixtures/xcresult-summary-0.5.0.schema.json",
-      "executable": false
-    },
-    {
-      "path": "tests/fixtures/xcresult-tests-0.5.0.schema.json",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/app/build.gradle.kts",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/app/gradle.lockfile",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/app/src/main/AndroidManifest.xml",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/app/src/main/java/app/example/media/HostActivity.kt",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/app/src/test/java/app/example/media/MediaLifecycleTest.kt",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/app/src/test/java/app/example/media/RoomLifecycleTest.kt",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/build.gradle.kts",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/gradle.properties",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/gradle/verification-metadata.xml",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/gradle/wrapper/gradle-wrapper.jar",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/gradle/wrapper/gradle-wrapper.properties",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/gradlew",
-      "executable": true
-    },
-    {
-      "path": "tests/native/android/gradlew.bat",
-      "executable": false
-    },
-    {
-      "path": "tests/native/android/settings.gradle.kts",
-      "executable": false
-    },
-    {
-      "path": "tests/native/apple/Host.swift",
-      "executable": false
-    },
-    {
-      "path": "tests/native/apple/LifecycleTests.swift",
-      "executable": false
-    },
-    {
-      "path": "tests/native/apple/Package.resolved",
-      "executable": false
-    },
-    {
-      "path": "tests/native/apple/project.yml",
-      "executable": false
-    },
-    {
-      "path": "tests/provider.test.mjs",
-      "executable": false
-    },
-    {
-      "path": "tests/test_apple_generation.py",
-      "executable": false
-    },
-    {
-      "path": "tests/test_apple_results.py",
-      "executable": false
-    },
-    {
-      "path": "tests/test_dependency_metadata.py",
-      "executable": false
-    },
-    {
-      "path": "tests/test_native_runner.py",
-      "executable": false
-    },
-    {
-      "path": "tests/video.test.mjs",
-      "executable": false
-    },
-    {
-      "path": "tools.lock.json",
-      "executable": false
-    },
-    {
-      "path": "tsconfig.json",
-      "executable": false
-    },
-    {
-      "path": "visual/definition.json",
-      "executable": false
-    },
-    {
-      "path": "visual/examples/connected.json",
-      "executable": false
-    },
-    {
-      "path": "visual/output/connected.png",
-      "executable": false
-    },
-    {
-      "path": "visual/output/connected.svg",
-      "executable": false
-    },
-    {
-      "path": "visual/output/description.md",
-      "executable": false
-    }
-  ],
   "artefacts": [
     {
-      "source": "implementation/android/src/main/java/ae/video/VideoSession.kt",
       "destination": "components/video-calls/android/src/main/java/ae/video/VideoSession.kt",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/android/src/main/java/ae/video/VideoSession.kt",
+      "template": false
     },
     {
-      "source": "implementation/apple/Sources/VideoSession.swift",
       "destination": "components/video-calls/apple/Sources/VideoSession.swift",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/apple/Sources/VideoSession.swift",
+      "template": false
     },
     {
-      "source": "implementation/server/video.ts",
       "destination": "components/video-calls/server/video.ts",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/server/video.ts",
+      "template": false
     },
     {
-      "source": "implementation/verification/adapters.mjs",
       "destination": "components/video-calls/verification/adapters.mjs",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/adapters.mjs",
+      "template": false
     },
     {
-      "source": "implementation/verification/apple_results.py",
       "destination": "components/video-calls/verification/apple_results.py",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/apple_results.py",
+      "template": false
     },
     {
-      "source": "implementation/verification/binding.ts",
       "destination": "components/video-calls/verification/binding.ts",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/binding.ts",
+      "template": false
     },
     {
-      "source": "implementation/verification/browser-process-core.mjs",
       "destination": "components/video-calls/verification/browser-process-core.mjs",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/browser-process-core.mjs",
+      "template": false
     },
     {
-      "source": "implementation/verification/browser-process.mjs",
       "destination": "components/video-calls/verification/browser-process.mjs",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/browser-process.mjs",
+      "template": false
     },
     {
-      "source": "implementation/verification/browser.ts",
       "destination": "components/video-calls/verification/browser.ts",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/browser.ts",
+      "template": false
     },
     {
-      "source": "implementation/verification/fixture.mjs",
       "destination": "components/video-calls/verification/fixture.mjs",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/fixture.mjs",
+      "template": false
     },
     {
-      "source": "implementation/verification/native.py",
       "destination": "components/video-calls/verification/native.py",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/native.py",
+      "template": false
     },
     {
-      "source": "implementation/verification/prepare-provider.mjs",
       "destination": "components/video-calls/verification/prepare-provider.mjs",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/prepare-provider.mjs",
+      "template": false
     },
     {
-      "source": "implementation/verification/provider-runner.mjs",
       "destination": "components/video-calls/verification/provider-runner.mjs",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/provider-runner.mjs",
+      "template": false
     },
     {
-      "source": "implementation/verification/provider.mjs",
       "destination": "components/video-calls/verification/provider.mjs",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/provider.mjs",
+      "template": false
     },
     {
-      "source": "implementation/verification/result.mjs",
       "destination": "components/video-calls/verification/result.mjs",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/verification/result.mjs",
+      "template": false
     },
     {
-      "source": "implementation/web/video.ts",
       "destination": "components/video-calls/web/video.ts",
-      "template": false,
-      "executable": false
+      "executable": false,
+      "source": "implementation/web/video.ts",
+      "template": false
     }
   ],
-  "dependencies": [],
-  "provides": [
-    {
-      "id": "facility",
-      "type": "ae/media-session",
-      "version": "1.0.0",
-      "path": "interfaces/contract.json"
-    }
-  ],
-  "requires": [
-    {
-      "id": "configuration",
-      "type": "ae/video-calls-configuration",
-      "version": "1.0.0",
-      "path": "interfaces/required/configuration.json",
-      "optional": true
-    }
-  ],
-  "visual": {
-    "definition": "visual/definition.json",
-    "examples": [
-      "visual/examples/connected.json"
-    ],
-    "outputs": [
-      "visual/output/connected.svg",
-      "visual/output/connected.png"
-    ],
-    "descriptions": [
-      "visual/output/description.md"
-    ]
-  },
   "capabilities": {
     "hosts": [
       "Configured LiveKit origin"
@@ -508,6 +124,363 @@
       "components/video-calls/web/video.ts"
     ]
   },
+  "collect": [
+    {
+      "default": true,
+      "grammar": "boolean",
+      "id": "enabled",
+      "required": false,
+      "secret": false,
+      "type": "boolean"
+    },
+    {
+      "grammar": "address",
+      "id": "serviceUrl",
+      "required": false,
+      "secret": false,
+      "type": "string"
+    },
+    {
+      "grammar": "identifier",
+      "id": "keyReference",
+      "required": false,
+      "secret": true,
+      "type": "string"
+    },
+    {
+      "grammar": "identifier",
+      "id": "secretReference",
+      "required": false,
+      "secret": true,
+      "type": "string"
+    }
+  ],
+  "dependencies": [],
+  "documents": {
+    "contract": "CONTRACT.md",
+    "examples": [
+      "examples/consumer.ts"
+    ],
+    "interfaces": [
+      "interfaces/contract.json",
+      "interfaces/media-session-verification.json",
+      "interfaces/required-configuration.json",
+      "suitability.json"
+    ],
+    "licenceNotice": "LICENCE"
+  },
+  "facilities": [
+    {
+      "description": "Signed room grants and browser, Apple and Android media lifecycle.",
+      "id": "media-session"
+    }
+  ],
+  "files": [
+    {
+      "executable": false,
+      "path": "CONTRACT.md"
+    },
+    {
+      "executable": false,
+      "path": "INSTRUCTIONS.md"
+    },
+    {
+      "executable": false,
+      "path": "LICENCE"
+    },
+    {
+      "executable": false,
+      "path": "NOTICE"
+    },
+    {
+      "executable": false,
+      "path": "SOURCE.json"
+    },
+    {
+      "executable": false,
+      "path": "SOURCE.md"
+    },
+    {
+      "executable": false,
+      "path": "examples/consumer.ts"
+    },
+    {
+      "executable": false,
+      "path": "implementation/android/src/main/java/ae/video/VideoSession.kt"
+    },
+    {
+      "executable": false,
+      "path": "implementation/apple/Sources/VideoSession.swift"
+    },
+    {
+      "executable": false,
+      "path": "implementation/server/video.ts"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/adapters.mjs"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/apple_results.py"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/binding.ts"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/browser-process-core.mjs"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/browser-process.mjs"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/browser.ts"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/fixture.mjs"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/native.py"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/prepare-provider.mjs"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/provider-runner.mjs"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/provider.mjs"
+    },
+    {
+      "executable": false,
+      "path": "implementation/verification/result.mjs"
+    },
+    {
+      "executable": false,
+      "path": "implementation/web/video.ts"
+    },
+    {
+      "executable": false,
+      "path": "interfaces/contract.json"
+    },
+    {
+      "executable": false,
+      "path": "interfaces/media-session-verification.json"
+    },
+    {
+      "executable": false,
+      "path": "interfaces/required-configuration.json"
+    },
+    {
+      "executable": false,
+      "path": "package-lock.json"
+    },
+    {
+      "executable": false,
+      "path": "package.json"
+    },
+    {
+      "executable": false,
+      "path": "scripts/capture-apple-schemas.py"
+    },
+    {
+      "executable": false,
+      "path": "scripts/check-android-locks.py"
+    },
+    {
+      "executable": false,
+      "path": "scripts/check-android.py"
+    },
+    {
+      "executable": false,
+      "path": "scripts/check-apple.py"
+    },
+    {
+      "executable": false,
+      "path": "scripts/platform-check.mjs"
+    },
+    {
+      "executable": false,
+      "path": "scripts/platform-check.py"
+    },
+    {
+      "executable": false,
+      "path": "suitability.json"
+    },
+    {
+      "executable": false,
+      "path": "tests/apple/CameraTests.swift"
+    },
+    {
+      "executable": false,
+      "path": "tests/browser-process.test.mjs"
+    },
+    {
+      "executable": false,
+      "path": "tests/fixtures/apple-single-run.json"
+    },
+    {
+      "executable": false,
+      "path": "tests/fixtures/dependency-metadata-provenance.json"
+    },
+    {
+      "executable": false,
+      "path": "tests/fixtures/livekit.mjs"
+    },
+    {
+      "executable": false,
+      "path": "tests/fixtures/xcresult-summary-0.5.0.schema.json"
+    },
+    {
+      "executable": false,
+      "path": "tests/fixtures/xcresult-tests-0.5.0.schema.json"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/app/build.gradle.kts"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/app/gradle.lockfile"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/app/src/main/AndroidManifest.xml"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/app/src/main/java/app/example/media/HostActivity.kt"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/app/src/test/java/app/example/media/MediaLifecycleTest.kt"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/app/src/test/java/app/example/media/RoomLifecycleTest.kt"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/build.gradle.kts"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/gradle.properties"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/gradle/verification-metadata.xml"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/gradle/wrapper/gradle-wrapper.jar"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/gradle/wrapper/gradle-wrapper.properties"
+    },
+    {
+      "executable": true,
+      "path": "tests/native/android/gradlew"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/gradlew.bat"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/android/settings.gradle.kts"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/apple/Host.swift"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/apple/LifecycleTests.swift"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/apple/Package.resolved"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/apple/project.yml"
+    },
+    {
+      "executable": false,
+      "path": "tests/native/dependencies.json"
+    },
+    {
+      "executable": false,
+      "path": "tests/provider.test.mjs"
+    },
+    {
+      "executable": false,
+      "path": "tests/test_apple_generation.py"
+    },
+    {
+      "executable": false,
+      "path": "tests/test_apple_results.py"
+    },
+    {
+      "executable": false,
+      "path": "tests/test_dependency_metadata.py"
+    },
+    {
+      "executable": false,
+      "path": "tests/test_native_runner.py"
+    },
+    {
+      "executable": false,
+      "path": "tests/video.test.mjs"
+    },
+    {
+      "executable": false,
+      "path": "tools.lock.json"
+    },
+    {
+      "executable": false,
+      "path": "tsconfig.json"
+    },
+    {
+      "executable": false,
+      "path": "visual/definition.json"
+    },
+    {
+      "executable": false,
+      "path": "visual/examples/connected.json"
+    },
+    {
+      "executable": false,
+      "path": "visual/output/connected.png"
+    },
+    {
+      "executable": false,
+      "path": "visual/output/connected.svg"
+    },
+    {
+      "executable": false,
+      "path": "visual/output/description.md"
+    }
+  ],
+  "format": 2,
+  "identity": {
+    "licence": "Apache-2.0",
+    "name": "ourapps-ae/video-calls",
+    "sourceRevision": "19905b75dbea89fbfd424d67fe26c81aaed0e018",
+    "sourceTreeDigest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "version": "0.5.0"
+  },
   "infrastructure": {
     "accounts": [
       "LiveKit"
@@ -515,10 +488,30 @@
     "costStatus": "unmeasured",
     "deployedReason": "Authorized provider environment is not supplied; fixture checks are simulation"
   },
+  "kind": "component",
+  "provides": [
+    {
+      "id": "facility",
+      "path": "interfaces/contract.json",
+      "type": "ae/media-session",
+      "version": "1.0.0"
+    }
+  ],
+  "requires": [
+    {
+      "id": "configuration",
+      "optional": true,
+      "path": "interfaces/required-configuration.json",
+      "type": "ae/video-calls-configuration",
+      "version": "1.0.0"
+    }
+  ],
+  "upgrade": {
+    "migration": "files-only",
+    "policy": "patch"
+  },
   "verification": [
     {
-      "id": "dependency-metadata",
-      "root": "package",
       "argv": [
         "python3",
         "-m",
@@ -530,35 +523,35 @@
         "test_dependency_metadata.py"
       ],
       "cwd": ".",
-      "prepare": [],
-      "tools": {
-        "python3": "3.12.8"
+      "execution": {
+        "assertions": [],
+        "cleanup": null,
+        "kind": "local",
+        "operations": [],
+        "resources": [],
+        "secrets": [],
+        "settings": [],
+        "simulation": false
       },
+      "expectedExit": 0,
       "fixtures": [
         "tests/fixtures/dependency-metadata-provenance.json"
       ],
+      "id": "dependency-metadata",
       "locks": [
         "tests/native/android/gradle/verification-metadata.xml"
       ],
       "network": false,
-      "timeoutSeconds": 60,
-      "expectedExit": 0,
-      "scope": "required-local",
+      "prepare": [],
       "requirements": [],
-      "execution": {
-        "kind": "local",
-        "simulation": false,
-        "operations": [],
-        "settings": [],
-        "secrets": [],
-        "resources": [],
-        "assertions": [],
-        "cleanup": null
+      "root": "package",
+      "scope": "required-local",
+      "timeoutSeconds": 60,
+      "tools": {
+        "python3": "3.12.8"
       }
     },
     {
-      "id": "apple-result-fixtures",
-      "root": "package",
       "argv": [
         "python3",
         "-m",
@@ -570,109 +563,128 @@
         "test_apple_results.py"
       ],
       "cwd": ".",
-      "prepare": [],
-      "tools": {
-        "python3": "3.12.8"
+      "execution": {
+        "assertions": [],
+        "cleanup": null,
+        "kind": "local",
+        "operations": [],
+        "resources": [],
+        "secrets": [],
+        "settings": [],
+        "simulation": false
       },
+      "expectedExit": 0,
       "fixtures": [
         "tests/fixtures/apple-single-run.json",
         "tests/fixtures/xcresult-tests-0.5.0.schema.json",
         "tests/fixtures/xcresult-summary-0.5.0.schema.json"
       ],
+      "id": "apple-result-fixtures",
       "locks": [],
       "network": false,
-      "timeoutSeconds": 60,
-      "expectedExit": 0,
-      "scope": "required-local",
+      "prepare": [],
       "requirements": [],
-      "execution": {
-        "kind": "local",
-        "simulation": false,
-        "operations": [],
-        "settings": [],
-        "secrets": [],
-        "resources": [],
-        "assertions": [],
-        "cleanup": null
+      "root": "package",
+      "scope": "required-local",
+      "timeoutSeconds": 60,
+      "tools": {
+        "python3": "3.12.8"
       }
     },
     {
-      "id": "browser-process-fixtures",
-      "root": "package",
       "argv": [
         "node",
         "--test",
         "tests/browser-process.test.mjs"
       ],
       "cwd": ".",
-      "prepare": [],
-      "tools": {
-        "node": "26.5.0"
+      "execution": {
+        "assertions": [],
+        "cleanup": null,
+        "kind": "local",
+        "operations": [],
+        "resources": [],
+        "secrets": [],
+        "settings": [],
+        "simulation": false
       },
+      "expectedExit": 0,
       "fixtures": [
         "tests/browser-process.test.mjs"
       ],
+      "id": "browser-process-fixtures",
       "locks": [],
       "network": false,
-      "timeoutSeconds": 60,
-      "expectedExit": 0,
-      "scope": "required-local",
+      "prepare": [],
       "requirements": [],
-      "execution": {
-        "kind": "local",
-        "simulation": false,
-        "operations": [],
-        "settings": [],
-        "secrets": [],
-        "resources": [],
-        "assertions": [],
-        "cleanup": null
+      "root": "package",
+      "scope": "required-local",
+      "timeoutSeconds": 60,
+      "tools": {
+        "node": "26.5.0"
       }
     },
     {
-      "id": "behaviour",
-      "root": "package",
       "argv": [
         "node",
         "--test",
         "tests/video.test.mjs"
       ],
       "cwd": ".",
-      "prepare": [],
-      "tools": {
-        "node": "26.5.0"
+      "execution": {
+        "assertions": [],
+        "cleanup": null,
+        "kind": "local",
+        "operations": [],
+        "resources": [],
+        "secrets": [],
+        "settings": [],
+        "simulation": false
       },
+      "expectedExit": 0,
       "fixtures": [
         "tests/fixtures/livekit.mjs"
       ],
+      "id": "behaviour",
       "locks": [
         "package-lock.json"
       ],
       "network": false,
-      "timeoutSeconds": 120,
-      "expectedExit": 0,
-      "scope": "required-local",
+      "prepare": [],
       "requirements": [],
-      "execution": {
-        "kind": "local",
-        "simulation": false,
-        "operations": [],
-        "settings": [],
-        "secrets": [],
-        "resources": [],
-        "assertions": [],
-        "cleanup": null
+      "root": "package",
+      "scope": "required-local",
+      "timeoutSeconds": 120,
+      "tools": {
+        "node": "26.5.0"
       }
     },
     {
-      "id": "typecheck",
-      "root": "package",
       "argv": [
         "npm",
         "run",
         "typecheck"
       ],
       "cwd": ".",
+      "execution": {
+        "assertions": [],
+        "cleanup": null,
+        "kind": "local",
+        "operations": [],
+        "resources": [],
+        "secrets": [],
+        "settings": [],
+        "simulation": false
+      },
+      "expectedExit": 0,
+      "fixtures": [
+        "examples/consumer.ts"
+      ],
+      "id": "typecheck",
+      "locks": [
+        "package-lock.json"
+      ],
+      "network": false,
       "prepare": [
         {
           "argv": [
@@ -686,41 +698,41 @@
           "network": true
         }
       ],
+      "requirements": [],
+      "root": "package",
+      "scope": "required-local",
+      "timeoutSeconds": 120,
       "tools": {
         "node": "26.5.0",
         "npm": "11.17.0"
-      },
-      "fixtures": [
-        "examples/consumer.ts"
-      ],
-      "locks": [
-        "package-lock.json"
-      ],
-      "network": false,
-      "timeoutSeconds": 120,
-      "expectedExit": 0,
-      "scope": "required-local",
-      "requirements": [],
-      "execution": {
-        "kind": "local",
-        "simulation": false,
-        "operations": [],
-        "settings": [],
-        "secrets": [],
-        "resources": [],
-        "assertions": [],
-        "cleanup": null
       }
     },
     {
-      "id": "provider-fixtures",
-      "root": "package",
       "argv": [
         "node",
         "--test",
         "tests/provider.test.mjs"
       ],
       "cwd": ".",
+      "execution": {
+        "assertions": [],
+        "cleanup": null,
+        "kind": "local",
+        "operations": [],
+        "resources": [],
+        "secrets": [],
+        "settings": [],
+        "simulation": false
+      },
+      "expectedExit": 0,
+      "fixtures": [
+        "tests/provider.test.mjs"
+      ],
+      "id": "provider-fixtures",
+      "locks": [
+        "package-lock.json"
+      ],
+      "network": false,
       "prepare": [
         {
           "argv": [
@@ -734,35 +746,16 @@
           "network": true
         }
       ],
+      "requirements": [],
+      "root": "package",
+      "scope": "required-local",
+      "timeoutSeconds": 180,
       "tools": {
         "node": "26.5.0",
         "npm": "11.17.0"
-      },
-      "fixtures": [
-        "tests/provider.test.mjs"
-      ],
-      "locks": [
-        "package-lock.json"
-      ],
-      "network": false,
-      "timeoutSeconds": 180,
-      "expectedExit": 0,
-      "scope": "required-local",
-      "requirements": [],
-      "execution": {
-        "kind": "local",
-        "simulation": false,
-        "operations": [],
-        "settings": [],
-        "secrets": [],
-        "resources": [],
-        "assertions": [],
-        "cleanup": null
       }
     },
     {
-      "id": "native-runner-fixtures",
-      "root": "package",
       "argv": [
         "python3",
         "-m",
@@ -774,34 +767,34 @@
         "test_native_runner.py"
       ],
       "cwd": ".",
-      "prepare": [],
-      "tools": {
-        "python3": "3.12.8"
+      "execution": {
+        "assertions": [],
+        "cleanup": null,
+        "kind": "local",
+        "operations": [],
+        "resources": [],
+        "secrets": [],
+        "settings": [],
+        "simulation": false
       },
+      "expectedExit": 0,
       "fixtures": [
         "tests/test_native_runner.py",
         "tests/fixtures/apple-single-run.json"
       ],
+      "id": "native-runner-fixtures",
       "locks": [],
       "network": false,
-      "timeoutSeconds": 60,
-      "expectedExit": 0,
-      "scope": "required-local",
+      "prepare": [],
       "requirements": [],
-      "execution": {
-        "kind": "local",
-        "simulation": false,
-        "operations": [],
-        "settings": [],
-        "secrets": [],
-        "resources": [],
-        "assertions": [],
-        "cleanup": null
+      "root": "package",
+      "scope": "required-local",
+      "timeoutSeconds": 60,
+      "tools": {
+        "python3": "3.12.8"
       }
     },
     {
-      "id": "apple-generation",
-      "root": "package",
       "argv": [
         "python3",
         "-m",
@@ -813,147 +806,94 @@
         "test_apple_generation.py"
       ],
       "cwd": ".",
-      "prepare": [],
-      "tools": {
-        "python3": "3.12.8",
-        "xcodegen": "2.46.0"
+      "execution": {
+        "assertions": [],
+        "cleanup": null,
+        "kind": "local",
+        "operations": [],
+        "resources": [],
+        "secrets": [],
+        "settings": [],
+        "simulation": false
       },
+      "expectedExit": 0,
       "fixtures": [
         "tests/native/apple/project.yml"
       ],
+      "id": "apple-generation",
       "locks": [
         "tests/native/apple/Package.resolved"
       ],
       "network": false,
-      "timeoutSeconds": 90,
-      "expectedExit": 0,
-      "scope": "platform",
+      "prepare": [],
       "requirements": [],
-      "execution": {
-        "kind": "local",
-        "simulation": false,
-        "operations": [],
-        "settings": [],
-        "secrets": [],
-        "resources": [],
-        "assertions": [],
-        "cleanup": null
+      "root": "package",
+      "scope": "platform",
+      "timeoutSeconds": 90,
+      "tools": {
+        "python3": "3.12.8",
+        "xcodegen": "2.46.0"
       }
     },
     {
-      "id": "apple-build",
-      "root": "package",
       "argv": [
         "python3",
         "scripts/platform-check.py",
         "apple-build"
       ],
       "cwd": ".",
-      "prepare": [],
-      "tools": {
-        "python3": "3.12.8",
-        "xcodebuild": "27.2",
-        "xcodegen": "2.46.0"
-      },
-      "fixtures": [
-        "tests/native/apple/project.yml"
-      ],
-      "locks": [
-        "tests/native/apple/Package.resolved"
-      ],
-      "network": true,
-      "timeoutSeconds": 900,
-      "expectedExit": 0,
-      "scope": "platform",
-      "requirements": [],
       "execution": {
+        "assertions": [
+          "build-produced"
+        ],
+        "cleanup": null,
         "kind": "native",
-        "simulation": false,
         "operations": [
           "dependency-download",
           "native-build"
         ],
+        "resources": [
+          {
+            "access": "read-only",
+            "id": "appleDeveloperDirectory",
+            "required": true
+          }
+        ],
+        "secrets": [],
         "settings": [
           "applePlatform",
           "maximumSeconds"
         ],
-        "secrets": [],
-        "resources": [
-          {
-            "id": "appleDeveloperDirectory",
-            "required": true,
-            "access": "read-only"
-          }
-        ],
-        "assertions": [
-          "build-produced"
-        ],
-        "cleanup": null
+        "simulation": false
+      },
+      "expectedExit": 0,
+      "fixtures": [
+        "tests/native/apple/project.yml"
+      ],
+      "id": "apple-build",
+      "locks": [
+        "tests/native/apple/Package.resolved"
+      ],
+      "network": true,
+      "prepare": [],
+      "requirements": [],
+      "root": "package",
+      "scope": "platform",
+      "timeoutSeconds": 900,
+      "tools": {
+        "python3": "3.12.8",
+        "xcodebuild": "27.2",
+        "xcodegen": "2.46.0"
       }
     },
     {
-      "id": "apple-media",
-      "root": "package",
       "argv": [
         "python3",
         "scripts/platform-check.py",
         "apple"
       ],
       "cwd": ".",
-      "prepare": [
-        {
-          "argv": [
-            "python3",
-            "scripts/platform-check.py",
-            "prepare-apple"
-          ],
-          "cwd": ".",
-          "network": true
-        }
-      ],
-      "tools": {
-        "python3": "3.12.8",
-        "xcodebuild": "27.2",
-        "xcodegen": "2.46.0",
-        "xcrun": "72"
-      },
-      "fixtures": [
-        "tests/apple/CameraTests.swift",
-        "tests/native/apple/LifecycleTests.swift"
-      ],
-      "locks": [
-        "tests/native/apple/Package.resolved"
-      ],
-      "network": false,
-      "timeoutSeconds": 900,
-      "expectedExit": 0,
-      "scope": "platform",
-      "requirements": [
-        "external:compatible-apple-simulator"
-      ],
       "execution": {
-        "kind": "native",
-        "simulation": false,
-        "operations": [
-          "create-temporary-simulator",
-          "dependency-download",
-          "native-build",
-          "native-test"
-        ],
-        "settings": [
-          "appleDeviceType",
-          "applePlatform",
-          "appleRuntime",
-          "maximumSeconds"
-        ],
-        "secrets": [],
-        "resources": [
-          {
-            "id": "appleDeveloperDirectory",
-            "required": true,
-            "access": "read-only"
-          }
-        ],
         "assertions": [
           "build-produced",
           "tests-discovered",
@@ -968,18 +908,120 @@
           ],
           "cwd": ".",
           "timeoutSeconds": 60
+        },
+        "kind": "native",
+        "operations": [
+          "create-temporary-simulator",
+          "dependency-download",
+          "native-build",
+          "native-test"
+        ],
+        "resources": [
+          {
+            "access": "read-only",
+            "id": "appleDeveloperDirectory",
+            "required": true
+          }
+        ],
+        "secrets": [],
+        "settings": [
+          "appleDeviceType",
+          "applePlatform",
+          "appleRuntime",
+          "maximumSeconds"
+        ],
+        "simulation": false
+      },
+      "expectedExit": 0,
+      "fixtures": [
+        "tests/apple/CameraTests.swift",
+        "tests/native/apple/LifecycleTests.swift"
+      ],
+      "id": "apple-media",
+      "locks": [
+        "tests/native/apple/Package.resolved"
+      ],
+      "network": false,
+      "prepare": [
+        {
+          "argv": [
+            "python3",
+            "scripts/platform-check.py",
+            "prepare-apple"
+          ],
+          "cwd": ".",
+          "network": true
         }
+      ],
+      "requirements": [
+        "external:compatible-apple-simulator"
+      ],
+      "root": "package",
+      "scope": "platform",
+      "timeoutSeconds": 900,
+      "tools": {
+        "python3": "3.12.8",
+        "xcodebuild": "27.2",
+        "xcodegen": "2.46.0",
+        "xcrun": "72"
       }
     },
     {
-      "id": "android-media",
-      "root": "package",
       "argv": [
         "python3",
         "scripts/platform-check.py",
         "android"
       ],
       "cwd": ".",
+      "execution": {
+        "assertions": [
+          "build-produced",
+          "tests-discovered",
+          "tests-executed",
+          "tests-passed"
+        ],
+        "cleanup": null,
+        "kind": "native",
+        "operations": [
+          "copy-dependency-cache",
+          "dependency-download",
+          "native-build",
+          "native-test"
+        ],
+        "resources": [
+          {
+            "access": "copy",
+            "id": "androidCache",
+            "required": false
+          },
+          {
+            "access": "read-only",
+            "id": "androidJavaHome",
+            "required": true
+          },
+          {
+            "access": "copy",
+            "id": "androidSdk",
+            "required": true
+          }
+        ],
+        "secrets": [],
+        "settings": [
+          "maximumSeconds"
+        ],
+        "simulation": false
+      },
+      "expectedExit": 0,
+      "fixtures": [
+        "tests/native/android/app/src/test/java/app/example/media/RoomLifecycleTest.kt"
+      ],
+      "id": "android-media",
+      "locks": [
+        "tests/native/android/app/gradle.lockfile",
+        "tests/native/android/gradle/verification-metadata.xml",
+        "tests/native/android/gradle/wrapper/gradle-wrapper.properties"
+      ],
+      "network": false,
       "prepare": [
         {
           "argv": [
@@ -991,72 +1033,76 @@
           "network": true
         }
       ],
-      "tools": {
-        "java": "17",
-        "python3": "3.12.8"
-      },
-      "fixtures": [
-        "tests/native/android/app/src/test/java/app/example/media/RoomLifecycleTest.kt"
-      ],
-      "locks": [
-        "tests/native/android/app/gradle.lockfile",
-        "tests/native/android/gradle/verification-metadata.xml",
-        "tests/native/android/gradle/wrapper/gradle-wrapper.properties"
-      ],
-      "network": false,
-      "timeoutSeconds": 900,
-      "expectedExit": 0,
-      "scope": "platform",
       "requirements": [
         "external:android-test-environment"
       ],
-      "execution": {
-        "kind": "native",
-        "simulation": false,
-        "operations": [
-          "copy-dependency-cache",
-          "dependency-download",
-          "native-build",
-          "native-test"
-        ],
-        "settings": [
-          "maximumSeconds"
-        ],
-        "secrets": [],
-        "resources": [
-          {
-            "id": "androidCache",
-            "required": false,
-            "access": "copy"
-          },
-          {
-            "id": "androidJavaHome",
-            "required": true,
-            "access": "read-only"
-          },
-          {
-            "id": "androidSdk",
-            "required": true,
-            "access": "copy"
-          }
-        ],
-        "assertions": [
-          "build-produced",
-          "tests-discovered",
-          "tests-executed",
-          "tests-passed"
-        ],
-        "cleanup": null
+      "root": "package",
+      "scope": "platform",
+      "timeoutSeconds": 900,
+      "tools": {
+        "java": "17",
+        "python3": "3.12.8"
       }
     },
     {
-      "id": "provider-media",
-      "root": "package",
       "argv": [
         "node",
         "implementation/verification/provider-runner.mjs"
       ],
       "cwd": ".",
+      "execution": {
+        "assertions": [
+          "board-capture-denied",
+          "media-stopped-on-close",
+          "publisher-joined",
+          "reconnected",
+          "room-deleted",
+          "room-listed",
+          "subscriber-joined",
+          "subscriber-publish-denied",
+          "synthetic-track-received"
+        ],
+        "cleanup": {
+          "argv": [
+            "node",
+            "implementation/verification/provider-runner.mjs",
+            "cleanup"
+          ],
+          "cwd": ".",
+          "timeoutSeconds": 60
+        },
+        "kind": "provider",
+        "operations": [
+          "create-room",
+          "delete-created-room",
+          "dependency-download",
+          "join-room",
+          "list-account-rooms",
+          "publish-synthetic-media",
+          "subscribe-media"
+        ],
+        "resources": [],
+        "secrets": [
+          "livekitKey",
+          "livekitSecret"
+        ],
+        "settings": [
+          "ephemeralRoomPrefix",
+          "livekitUrl",
+          "maximumSeconds"
+        ],
+        "simulation": true
+      },
+      "expectedExit": 0,
+      "fixtures": [
+        "implementation/verification/browser.ts",
+        "implementation/verification/fixture.mjs"
+      ],
+      "id": "provider-media",
+      "locks": [
+        "package-lock.json"
+      ],
+      "network": true,
       "prepare": [
         {
           "argv": [
@@ -1078,71 +1124,29 @@
           "network": true
         }
       ],
-      "tools": {
-        "node": "26.5.0",
-        "npm": "11.17.0"
-      },
-      "fixtures": [
-        "implementation/verification/browser.ts",
-        "implementation/verification/fixture.mjs"
-      ],
-      "locks": [
-        "package-lock.json"
-      ],
-      "network": true,
-      "timeoutSeconds": 300,
-      "expectedExit": 0,
-      "scope": "deployed",
       "requirements": [
         "external:livekit-project"
       ],
-      "execution": {
-        "kind": "provider",
-        "simulation": true,
-        "operations": [
-          "create-room",
-          "delete-created-room",
-          "dependency-download",
-          "join-room",
-          "list-account-rooms",
-          "publish-synthetic-media",
-          "subscribe-media"
-        ],
-        "settings": [
-          "ephemeralRoomPrefix",
-          "livekitUrl",
-          "maximumSeconds"
-        ],
-        "secrets": [
-          "livekitKey",
-          "livekitSecret"
-        ],
-        "resources": [],
-        "assertions": [
-          "board-capture-denied",
-          "media-stopped-on-close",
-          "publisher-joined",
-          "reconnected",
-          "room-deleted",
-          "room-listed",
-          "subscriber-joined",
-          "subscriber-publish-denied",
-          "synthetic-track-received"
-        ],
-        "cleanup": {
-          "argv": [
-            "node",
-            "implementation/verification/provider-runner.mjs",
-            "cleanup"
-          ],
-          "cwd": ".",
-          "timeoutSeconds": 60
-        }
+      "root": "package",
+      "scope": "deployed",
+      "timeoutSeconds": 300,
+      "tools": {
+        "node": "26.5.0",
+        "npm": "11.17.0"
       }
     }
   ],
-  "upgrade": {
-    "policy": "patch",
-    "migration": "files-only"
+  "visual": {
+    "definition": "visual/definition.json",
+    "descriptions": [
+      "visual/output/description.md"
+    ],
+    "examples": [
+      "visual/examples/connected.json"
+    ],
+    "outputs": [
+      "visual/output/connected.svg",
+      "visual/output/connected.png"
+    ]
   }
 }

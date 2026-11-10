@@ -10,7 +10,7 @@ Reference revision: `19905b75dbea89fbfd424d67fe26c81aaed0e018` (frozen McInPoker
 | `implementation/android/src/main/java/ae/video/VideoSession.kt` (168) | `android/app/src/main/java/com/georgemcintyre/mcinpoker/video/VideoSession.kt` 1-166 | Package `ae.video`; `canCapture` callback; internal factory and scope constructor for controlled tests | Game view model and Compose panels |
 | `tests/apple/CameraTests.swift` | `ios/McInPokerTests/CameraTests.swift` 1-140 | Neutral host | Game-specific tests |
 
-`implementation/verification/*` (provider, browser, native and Apple result helpers) was written for this component against aepm's execution context and result protocol (`interfaces/verification.md`); it has no frozen source. `scripts/` and `tests/native/` hold the standalone Apple and Android hosts and their locks (`interfaces/native-dependencies.json`). Fixture checks use synthetic identities and in-memory responses; the strings that look like credentials in `tests/` are test-only values.
+`implementation/verification/*` (provider, browser, native and Apple result helpers) was written for this component against aepm's execution context and result protocol (`interfaces/media-session-verification.json`); it has no frozen source. `scripts/` and `tests/native/` hold the standalone Apple and Android hosts and their locks (`tests/native/dependencies.json`). Fixture checks use synthetic identities and in-memory responses; the strings that look like credentials in `tests/` are test-only values.
 
 `videoEnvironment` and the `VideoSettings` and `VideoSecrets` types in `implementation/server/video.ts` are new code with no frozen counterpart (the frozen server read the three environment variables directly).
 

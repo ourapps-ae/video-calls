@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ae/video-calls-configuration",
+  "x-version": "1.0.0",
+  "description": "What the application supplies to video-calls: the collected settings and resolved secrets that make the server environment, the room prefix and participant passed to videoGrant, and the browser Video options.",
+  "type": "object",
+  "required": [
+    "roomPrefix",
+    "video"
+  ],
+  "properties": {
+    "settings": {
+      "type": "object",
+      "description": "Collected settings, passed to videoEnvironment.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "false makes the environment empty so no grant is issued; defaults to true."
+        },
+        "serviceUrl": {
+          "type": "string",
+          "pattern": "^https?://",
+          "description": "Address of the LiveKit service; https becomes wss and http becomes ws."
+        },
+        "keyReference": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_./-]{0,127}$",
+          "description": "Secret reference resolved by the deployment to the LiveKit API key."
+        },
+        "secretReference": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_./-]{0,127}$",
+          "description": "Secret reference resolved by the deployment to the LiveKit API secret."
+        }
+      },
+      "additionalProperties": false
+    },
+    "environment": {
+      "type": "object",
+      "description": "The server environment videoGrant and listRooms read: videoEnvironment(settings, secrets), or LIVEKIT_URL, LIVEKIT_API_KEY and LIVEKIT_API_SECRET from the deployment's environment.",
+      "properties": {
+        "LIVEKIT_URL": {
+          "type": "string",
+          "pattern": "^wss?://"
+        },
+        "LIVEKIT_API_KEY": {
+          "type": "string"
+        },
+        "LIVEKIT_API_SECRET": {
+          "type": "string"
+        }
+      }
+    },
+    "roomPrefix": {
+      "type": "string",
+      "description": "Prefix of video room names including its separator; equals the room service's roomPrefix."
+    },
+    "participant": {
+      "type": "object",
+      "description": "The authenticated participant a grant is issued for; publish is false for spectators and no grant is issued for a display.",
+      "required": [
+        "playerId",
+        "name",
+        "publish"
+      ],
+      "properties": {
+        "playerId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "publish": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "video": {
+      "type": "object",
+      "description": "Options of the browser Video: canCapture () => boolean (false on a shared display), soundOn () => boolean, and modeEvent, the browser event name display-mode publishes.",
+      "required": [
+        "canCapture",
+        "soundOn",
+        "modeEvent"
+      ],
+      "properties": {
+        "canCapture": {
+          "description": "Function () => boolean."
+        },
+        "soundOn": {
+          "description": "Function () => boolean."
+        },
+        "modeEvent": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

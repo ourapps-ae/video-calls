@@ -1,1 +1,1 @@
-{"name":"@ourapps-ae/video-calls","version":"0.4.0","private":true,"type":"module","scripts":{"test":"node --test tests/*.test.mjs","typecheck":"tsc --noEmit"},"dependencies":{"livekit-client":"2.23.0"},"devDependencies":{"esbuild":"0.25.12","playwright":"1.64.1","typescript":"5.9.3"}}
+{"name":"@ourapps-ae/video-calls","version":"0.5.0","private":true,"type":"module","scripts":{"test":"node --test tests/*.test.mjs","typecheck":"tsc --noEmit"},"dependencies":{"livekit-client":"2.23.0"},"devDependencies":{"esbuild":"0.25.12","playwright":"1.64.1","typescript":"5.9.3"}}

@@ -1,158 +1,1203 @@
 {
-  "id": "facility",
-  "type": "ae/media-session",
-  "version": "1.0.0",
-  "operations": {
-    "videoGrant": {
-      "arguments": [
-        "env:VideoEnv",
-        "tableId:string",
-        "playerId:string",
-        "name:string",
-        "now:number",
-        "publish:boolean",
-        "roomPrefix:string"
-      ],
-      "returns": "Promise<{url:string,token:string,room:string}|null>"
-    },
-    "listRooms": {
-      "arguments": [
-        "env:VideoEnv",
-        "now:number",
-        "roomPrefix:string",
-        "fetcher:typeof fetch"
-      ],
-      "returns": "Promise<{room:string,participants:string[]}[]|null>"
-    },
-    "connect": {
-      "arguments": [
-        "url:string",
-        "token:string",
-        "roomName:string"
-      ],
-      "returns": "Promise<void>"
-    },
-    "disconnect": {
-      "arguments": [],
-      "returns": "void"
-    },
-    "hold": {
-      "arguments": [
-        "on:boolean"
-      ],
-      "returns": "void"
-    },
-    "setMic": {
-      "arguments": [
-        "on:boolean"
-      ],
-      "returns": "Promise<void>"
-    },
-    "setCam": {
-      "arguments": [
-        "on:boolean"
-      ],
-      "returns": "Promise<void>"
-    },
-    "setSpeaker": {
-      "arguments": [
-        "on:boolean"
-      ],
-      "returns": "void"
-    },
-    "armIdle": {
-      "arguments": [],
-      "returns": "void"
-    },
-    "resume": {
-      "arguments": [],
-      "returns": "void"
-    },
-    "close": {
-      "arguments": [],
-      "returns": "void"
-    },
-    "videoEnvironment": {
-      "arguments": [
-        "settings:{enabled?:boolean,serviceUrl?:string}",
-        "secrets:{apiKey?:string,apiSecret?:string}"
-      ],
-      "returns": "VideoEnv (empty unless enabled and complete; https serviceUrl becomes the wss form)"
+  "openrpc": "1.3.2",
+  "info": {
+    "title": "ae/media-session",
+    "version": "1.0.0",
+    "description": "Video calls through LiveKit. Server (server/video.ts, WebCrypto only, tagged server): grants and room listing. Browser (web/video.ts, class Video over livekit-client 2.23.0, tagged web). Apple (@MainActor final class VideoSession over LiveKit 2.19.0, tagged swift) and Android (class ae.video.VideoSession over livekit-android 2.29.0, tagged kotlin). Browser: the constructor listens for modeEvent; publish the initial display mode before connecting; a false canCapture on that event disconnects and forgets the grant; generation checks reject stale completions. Apple: call on the main actor; the caller disconnects on display entry. Android: call from the main thread; the caller calls forget on display entry or room leave. Server: the authenticated recipe supplies participant identity and the room prefix, uses publish false for spectators and issues no grant for a display; room routes enforce authentication and privacy. Native dependency versions and locks are in tests/native/dependencies.json; the verification helpers aepm's runner calls are in interfaces/media-session-verification.json.",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
     }
   },
-  "exports": {
-    "verification/browser-process.mjs": [
-      "launchOwnedBrowser(options:{profileRoot:string,timeoutMilliseconds?:number}):Promise<{browser:Browser,close:()=>Promise<void>}>; requires runner-issued AEPM_PRIVATE_ROOT"
-    ],
-    "verification/provider.mjs": [
-      "verifyMedia(context:SanitizedExecutionContext,dependencies:ProviderDependencies):Promise<HelperResult>; exact records and dependency operations: interfaces/verification.md"
-    ],
-    "verification/adapters.mjs": [
-      "createProviderDependencies(context:SanitizedExecutionContext,options?:{applicationClients?:ApplicationClients}):Promise<ProviderDependencies>",
-      "cleanupProvider(context:SanitizedExecutionContext):Promise<CleanupResult>; code-only bridge: interfaces/verification.md"
-    ],
-    "verification/result.mjs": [
-      "readContext():Promise<SanitizedExecutionContext>",
-      "writeResult(result:HelperResult):Promise<void>",
-      "writeCleanupResult(result:CleanupResult):Promise<void>"
-    ],
-    "verification/native.py": [
-      "prepare_apple(context,*,project,scheme,derived_data,package_cache)",
-      "run_apple(context,*,project,scheme,derived_data,package_cache,expected_targets,test_settings=None)->dict; expected_targets is a mandatory exact name-to-bundle-type mapping",
-      "prepare_android(context,*,project,tasks)",
-      "run_android(context,*,project,tasks,artifact_paths)->dict",
-      "cleanup_native(context)->dict",
-      "environment(context)->dict[str,str]",
-      "read_context()->dict; write_result(result); write_cleanup_result(result)"
-    ],
-    "verification/apple_results.py": [
-      "validate_expected_targets(value:Mapping[str,str])->dict[str,str]",
-      "parse_apple_results(summary:dict,tests:dict,expected_targets:Mapping[str,str])->dict; guarded single-run schema0.5.0 coverage",
-      "extract_apple_results(bundle,expected_targets,*,env,deadline,query=None,clock=None)->dict"
-    ],
-    "server/video.ts": [
-      "VideoEnv",
-      "VideoGrant = {url:string,token:string,room:string} | null",
-      "videoGrant(env:VideoEnv,tableId:string,playerId:string,name:string,now:number,publish:boolean,roomPrefix:string):Promise<VideoGrant>",
-      "listRooms(env:VideoEnv,now:number,roomPrefix:string,fetcher:typeof fetch=fetch):Promise<{room:string,participants:string[]}[]|null>"
-    ],
-    "web/video.ts": [
-      "Video(onChange:()=>void,settings:{canCapture:()=>boolean,soundOn:()=>boolean,modeEvent:string})",
-      "connect(url:string,token:string,roomName:string):Promise<void>; disconnect():void; close():void; hold(on:boolean):void; setMic(on:boolean):Promise<void>; setCam(on:boolean):Promise<void>; setSpeaker(on:boolean):void; armIdle():void; resume():void",
-      "hasVideo(playerId:string,isMe:boolean):boolean; monitor(playerId:string,isMe:boolean,name:string,width:number,aspect:number=0.75):HTMLElement; cell(playerId:string,isMe:boolean,initial:string):HTMLElement",
-      "room, connected, micOn, camOn, camUsable, paused, failed, granted, stalled"
-    ],
-    "apple/Sources/VideoSession.swift": [
-      "@MainActor final class VideoSession: RoomDelegate; init(cameraCapture:(any CameraCaptureProviding)?=nil,defaults:UserDefaults=.standard,soundOn:@escaping ()->Bool,soundChanged:@escaping (Bool)->Void,canCapture:@escaping ()->Bool)",
-      "CameraDevice: Identifiable, Equatable {let id:String; let name:String}; @MainActor protocol CameraCaptureProviding {func devices() async throws -> [CameraDevice]; func apply(enabled:Bool,deviceID:String?,in room:Room) async throws}",
-      "connect(url:String,token:String,roomName:String)->Void; disconnect()->Void; hold(_ on:Bool)->Void; setMic(_ on:Bool)->Void; setCam(_ on:Bool)->Void; setSound(_ on:Bool)->Void; background()->Void; foreground()->Void; pauseForIdle()->Void; resumeFromPause()->Void",
-      "refreshCameras() async -> Void; selectCamera(_ id:String)->Void; waitForCameraUpdate() async -> Void; hasVideo(_ playerId:String,isMe:Bool)->Bool; static var offersCameraSelection:Bool"
-    ],
-    "android/src/main/java/ae/video/VideoSession.kt": [
-      "ae.video.VideoSession(context:android.content.Context,canCapture:()->Boolean)",
-      "connect(url:String,token:String,roomName:String):Unit; disconnect():Unit; forget():Unit; close():Unit; hold(on:Boolean):Unit; setMic(on:Boolean):Unit; setCam(on:Boolean):Unit; setSpeaker(on:Boolean):Unit; background():Unit; foreground():Unit; pauseForIdle():Unit; resumeFromPause():Unit",
-      "room:StateFlow<Room?>; micOn,camOn,camUsable,paused,failed,held:StateFlow<Boolean>; tracksVersion:StateFlow<Int>"
-    ]
-  },
-  "requirements": {
-    "configuration": "Runtime server environment supplies LIVEKIT_URL, LIVEKIT_API_KEY and LIVEKIT_API_SECRET outside source. Caller supplies roomPrefix including its separator, authenticated participant identity, display/capture callback, sound callbacks and event name. No credentials are collected into source templates."
-  },
-  "buildInputs": "Browser livekit-client 2.23.0 and TypeScript 5.9.3 are locked in package-lock.json. Server uses WebCrypto only. interfaces/native-dependencies.json identifies resolved native locks, checksums and standalone Apple/Android hosts. Android controlled lifecycle tests use the internal roomFactory/scope constructor; public construction is unchanged. Apple test execution and provider interoperability remain unverified.",
-  "configurationPort": {
-    "id": "configuration",
-    "type": "ae/video-calls-configuration",
-    "version": "1.0.0"
-  },
-  "lifecycle": {
-    "browser": "Constructor registers modeEvent. Publish initial display mode before connecting. A false canCapture callback on that event disconnects and forgets the grant. close disconnects and removes the listener. Hold preserves preferences; idle disconnect retains a retry grant. Generation checks reject stale completion.",
-    "apple": "Call on the main actor. Native caller disconnects immediately on display entry; the callback alone does not stop an already active track. disconnect forgets the grant; pauseForIdle saves it for resumeFromPause. background stops camera and preserves microphone preference. Sound storage belongs to soundOn/soundChanged callbacks.",
-    "android": "Call from the main thread. Native caller calls forget on display entry or room leave. disconnect releases the room but retains the grant for idle retry; forget clears it; close forgets and cancels the session scope. background stops camera and preserves microphone preference.",
-    "server": "Authenticated recipe supplies participant identity and room prefix including separator, uses publish=false for spectators, and issues no display grant. Room routes independently enforce authentication and privacy. listRooms converts ws/wss to http/https and preserves host/port/base path; unsupported/malformed addresses or credentials/query/fragment return null without fetching. Account-wide listing before prefix filtering is unchanged."
-  },
-  "settings": {
-    "enabled": "boolean, default true; false makes videoEnvironment empty so no grant is issued",
-    "serviceUrl": "http or https address of the LiveKit service (optional)",
-    "keyReference": "secret reference to the LiveKit API key (optional)",
-    "secretReference": "secret reference to the LiveKit API secret (optional)"
+  "methods": [
+    {
+      "name": "videoEnvironment",
+      "description": "The environment for videoGrant and listRooms: empty unless enabled and serviceUrl, apiKey and apiSecret are all set and serviceUrl is an http or https address with no credentials, query or fragment; https becomes wss, http becomes ws, trailing slashes are dropped.",
+      "params": [
+        {
+          "name": "settings",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/VideoSettings"
+          }
+        },
+        {
+          "name": "secrets",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/VideoSecrets"
+          }
+        }
+      ],
+      "result": {
+        "name": "env",
+        "schema": {
+          "$ref": "#/components/schemas/VideoEnv"
+        }
+      },
+      "tags": [
+        {
+          "name": "server"
+        }
+      ]
+    },
+    {
+      "name": "videoGrant",
+      "description": "A LiveKit grant for room roomPrefix+tableId (join, create, subscribe, publish when publish is true, no data), or null without a complete environment or when signing fails.",
+      "params": [
+        {
+          "name": "env",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/VideoEnv"
+          }
+        },
+        {
+          "name": "tableId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "playerId",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "Grant subject."
+          }
+        },
+        {
+          "name": "name",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "now",
+          "required": true,
+          "schema": {
+            "type": "number",
+            "description": "Milliseconds since the epoch."
+          }
+        },
+        {
+          "name": "publish",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "roomPrefix",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "Including its separator."
+          }
+        }
+      ],
+      "result": {
+        "name": "grant",
+        "schema": {
+          "$ref": "#/components/schemas/VideoGrant"
+        }
+      },
+      "tags": [
+        {
+          "name": "server"
+        }
+      ]
+    },
+    {
+      "name": "listRooms",
+      "description": "The rooms whose names start with roomPrefix and their participants, through the service's twirp RoomService (ws and wss become http and https; host, port and base path kept). null without a complete environment or for a malformed or unsupported address, credentials, query or fragment, without fetching. Rejects when the service call fails.",
+      "params": [
+        {
+          "name": "env",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/VideoEnv"
+          }
+        },
+        {
+          "name": "now",
+          "required": true,
+          "schema": {
+            "type": "number",
+            "description": "Milliseconds since the epoch."
+          }
+        },
+        {
+          "name": "roomPrefix",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "fetcher",
+          "required": false,
+          "schema": {
+            "description": "Function typeof fetch; defaults to fetch."
+          }
+        }
+      ],
+      "result": {
+        "name": "rooms",
+        "schema": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/components/schemas/RoomListing"
+          }
+        }
+      },
+      "tags": [
+        {
+          "name": "server"
+        }
+      ]
+    },
+    {
+      "name": "Video",
+      "description": "Creates the browser session and listens for modeEvent on window.",
+      "params": [
+        {
+          "name": "onChange",
+          "required": true,
+          "schema": {
+            "description": "Function () => void, called after every visible change."
+          }
+        },
+        {
+          "name": "settings",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/BrowserVideoSettings"
+          }
+        }
+      ],
+      "result": {
+        "name": "video",
+        "schema": {
+          "$ref": "#/components/schemas/VideoState"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.connect",
+      "description": "Keeps the grant and joins the room at 320x240, 15 frames per second, front camera; does nothing while canCapture is false. Sets failed when joining fails.",
+      "params": [
+        {
+          "name": "url",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "token",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "roomName",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.disconnect",
+      "description": "Stops local tracks, leaves the room and forgets the grant.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.close",
+      "description": "disconnect and stop listening for modeEvent.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.hold",
+      "description": "Turns microphone and camera off while on, keeping the preferences.",
+      "params": [
+        {
+          "name": "on",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.setMic",
+      "description": "Sets the microphone preference and applies it; ignored while canCapture is false.",
+      "params": [
+        {
+          "name": "on",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.setCam",
+      "description": "Sets the camera preference and applies it; ignored while canCapture is false.",
+      "params": [
+        {
+          "name": "on",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.setSpeaker",
+      "description": "Mutes or unmutes every remote audio element.",
+      "params": [
+        {
+          "name": "on",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.armIdle",
+      "description": "Restarts the five-minute idle timer, after which the session disconnects, keeps the grant and sets paused.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.resume",
+      "description": "Reconnects with the kept grant.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.hasVideo",
+      "description": "Whether a camera picture is showing for the player.",
+      "params": [
+        {
+          "name": "playerId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "isMe",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "hasVideo",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.monitor",
+      "description": "A div of class monitor (plus me) holding a copy of the player's video, or the name's initial.",
+      "params": [
+        {
+          "name": "playerId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "isMe",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "name",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "width",
+          "required": true,
+          "schema": {
+            "type": "number",
+            "description": "Pixels; 0 leaves the size to styles."
+          }
+        },
+        {
+          "name": "aspect",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "description": "Height over width; defaults to 0.75."
+          }
+        }
+      ],
+      "result": {
+        "name": "element",
+        "schema": {
+          "description": "HTMLElement."
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "Video.cell",
+      "description": "A div of class vcell (plus me) holding a copy of the player's video, or a placeholder with the initial.",
+      "params": [
+        {
+          "name": "playerId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "isMe",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "initial",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "element",
+        "schema": {
+          "description": "HTMLElement."
+        }
+      },
+      "tags": [
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.init",
+      "description": "Creates the Apple session; the camera device preference is read from defaults key cameraDeviceID.",
+      "params": [
+        {
+          "name": "cameraCapture",
+          "required": false,
+          "schema": {
+            "description": "CameraCaptureProviding (devices() and apply(enabled:deviceID:in:)); defaults to the live camera."
+          }
+        },
+        {
+          "name": "defaults",
+          "required": false,
+          "schema": {
+            "description": "UserDefaults; defaults to .standard."
+          }
+        },
+        {
+          "name": "soundOn",
+          "required": true,
+          "schema": {
+            "description": "Function () -> Bool."
+          }
+        },
+        {
+          "name": "soundChanged",
+          "required": true,
+          "schema": {
+            "description": "Function (Bool) -> Void."
+          }
+        },
+        {
+          "name": "canCapture",
+          "required": true,
+          "schema": {
+            "description": "Function () -> Bool."
+          }
+        }
+      ],
+      "result": {
+        "name": "session",
+        "schema": {
+          "description": "VideoSession (Observable)."
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.init",
+      "description": "Creates the Android session; state is exposed as StateFlows room, micOn, camOn, camUsable, paused, failed, held and tracksVersion.",
+      "params": [
+        {
+          "name": "context",
+          "required": true,
+          "schema": {
+            "description": "android.content.Context."
+          }
+        },
+        {
+          "name": "canCapture",
+          "required": true,
+          "schema": {
+            "description": "Function () -> Boolean."
+          }
+        }
+      ],
+      "result": {
+        "name": "session",
+        "schema": {
+          "description": "VideoSession."
+        }
+      },
+      "tags": [
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.connect",
+      "description": "Joins the room with the grant; does nothing while canCapture is false.",
+      "params": [
+        {
+          "name": "url",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "token",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "roomName",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        },
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.disconnect",
+      "description": "Apple: leaves and forgets the grant. Android: releases the room and keeps the grant for an idle retry.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        },
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.forget",
+      "description": "Disconnects and clears the grant.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.close",
+      "description": "forget and cancel the session scope.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.hold",
+      "description": "Microphone and camera off while on, keeping the preferences.",
+      "params": [
+        {
+          "name": "on",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        },
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.setMic",
+      "description": "Sets and applies the microphone preference.",
+      "params": [
+        {
+          "name": "on",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        },
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.setCam",
+      "description": "Sets and applies the camera preference.",
+      "params": [
+        {
+          "name": "on",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        },
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.setSound",
+      "description": "Reports the sound preference through soundChanged and sets every remote audio track's volume.",
+      "params": [
+        {
+          "name": "on",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.setSpeaker",
+      "description": "Turns remote audio on or off.",
+      "params": [
+        {
+          "name": "on",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.background",
+      "description": "Stops the camera and keeps the microphone preference.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        },
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.foreground",
+      "description": "Restores the camera.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        },
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.pauseForIdle",
+      "description": "Disconnects and saves the grant for resumeFromPause.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        },
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.resumeFromPause",
+      "description": "Reconnects with the saved grant.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        },
+        {
+          "name": "kotlin"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.hasVideo",
+      "description": "Whether a camera picture is showing for the player.",
+      "params": [
+        {
+          "name": "playerId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "isMe",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "result": {
+        "name": "hasVideo",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.refreshCameras",
+      "description": "Reads the available cameras.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.selectCamera",
+      "description": "Selects and remembers a camera.",
+      "params": [
+        {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.waitForCameraUpdate",
+      "description": "Waits for a pending camera change.",
+      "params": [],
+      "result": {
+        "name": "none",
+        "description": "Returns nothing.",
+        "schema": {
+          "type": "null"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        }
+      ]
+    },
+    {
+      "name": "VideoSession.offersCameraSelection",
+      "description": "True on Mac (Catalyst or an iOS app on a Mac).",
+      "params": [],
+      "result": {
+        "name": "offers",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "tags": [
+        {
+          "name": "swift"
+        }
+      ]
+    }
+  ],
+  "components": {
+    "schemas": {
+      "VideoEnv": {
+        "type": "object",
+        "description": "Server environment; other keys are ignored.",
+        "properties": {
+          "LIVEKIT_URL": {
+            "type": "string"
+          },
+          "LIVEKIT_API_KEY": {
+            "type": "string"
+          },
+          "LIVEKIT_API_SECRET": {
+            "type": "string"
+          }
+        }
+      },
+      "VideoSettings": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Defaults to true."
+          },
+          "serviceUrl": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "VideoSecrets": {
+        "type": "object",
+        "properties": {
+          "apiKey": {
+            "type": "string"
+          },
+          "apiSecret": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "VideoGrant": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "wss or ws address of the service."
+          },
+          "token": {
+            "type": "string",
+            "description": "HS256 JWT valid six hours."
+          },
+          "room": {
+            "type": "string",
+            "description": "roomPrefix + tableId."
+          }
+        },
+        "required": [
+          "url",
+          "token",
+          "room"
+        ],
+        "additionalProperties": false
+      },
+      "RoomListing": {
+        "type": "object",
+        "properties": {
+          "room": {
+            "type": "string"
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Participant names, or identities where no name is set."
+          }
+        },
+        "required": [
+          "room",
+          "participants"
+        ],
+        "additionalProperties": false
+      },
+      "BrowserVideoSettings": {
+        "type": "object",
+        "required": [
+          "canCapture",
+          "soundOn",
+          "modeEvent"
+        ],
+        "properties": {
+          "canCapture": {
+            "description": "Function () => boolean."
+          },
+          "soundOn": {
+            "description": "Function () => boolean."
+          },
+          "modeEvent": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "VideoState": {
+        "type": "object",
+        "properties": {
+          "room": {
+            "description": "livekit-client Room, or null."
+          },
+          "connected": {
+            "type": "boolean"
+          },
+          "micOn": {
+            "type": "boolean"
+          },
+          "camOn": {
+            "type": "boolean"
+          },
+          "camUsable": {
+            "type": "boolean"
+          },
+          "paused": {
+            "type": "boolean",
+            "description": "Disconnected after five idle minutes; resume reconnects."
+          },
+          "failed": {
+            "type": "boolean"
+          },
+          "granted": {
+            "type": "boolean",
+            "description": "A grant is held (read-only)."
+          },
+          "stalled": {
+            "type": "boolean",
+            "description": "Not connected, a grant is held, and paused or failed (read-only)."
+          }
+        },
+        "required": [
+          "room",
+          "connected",
+          "micOn",
+          "camOn",
+          "camUsable",
+          "paused",
+          "failed",
+          "granted",
+          "stalled"
+        ],
+        "additionalProperties": false,
+        "description": "Readable fields of the browser Video."
+      },
+      "CameraDevice": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    }
   }
 }
