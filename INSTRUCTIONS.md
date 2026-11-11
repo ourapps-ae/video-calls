@@ -23,10 +23,14 @@ Package `ourapps-ae/video-calls` version `0.5.0`. It provides `facility` (type `
 
 From the component directory (needs `npm ci --ignore-scripts --no-audit --no-fund` once for the npm suites):
 
-- `node --test tests/video.test.mjs tests/browser-process.test.mjs tests/provider.test.mjs`
-- `python3 -m unittest discover -s tests -p 'test_dependency_metadata.py'` (also `test_apple_results.py`, `test_native_runner.py`)
+- `python3 -m unittest discover -s tests -p test_dependency_metadata.py`
+- `python3 -m unittest discover -s tests -p test_apple_results.py`
+- `python3 -m unittest discover -s tests -p test_native_runner.py`
+- `node --test tests/browser-process.test.mjs`
+- `node --test tests/video.test.mjs`
 - `npm run typecheck`
+- `node --test tests/provider.test.mjs`
 - Heavy native suites (`scripts/platform-check.py apple-build|apple|android`, Xcode and Gradle) and the deployed provider suite need prepared machines and credentials; run them only deliberately.
-- `python3.12 -B tools/check_component.py components/video-calls` from the workspace root runs the required-local suites.
+- `python3 -m aepm review <digest> --store STORE --policy POLICY --trusted --allow-network` checks an archive fetched with `python3 -m aepm fetch ourapps-ae/video-calls@VERSION --store STORE --from https://ourapps.app` and runs its suites.
 
 In the application, join with two browsers, confirm each sees the other, enter display mode and confirm capture stops.

@@ -1,6 +1,6 @@
 # Source mapping
 
-Reference revision: `19905b75dbea89fbfd424d67fe26c81aaed0e018` (frozen McInPoker, read with `git show` in `mcinpoker/`). `SOURCE.json` keeps the pinned source hashes.
+Reference revision: `19905b75dbea89fbfd424d67fe26c81aaed0e018` (frozen McInPoker, repository `george-mcintyre/mcinpoker`). `SOURCE.json` keeps the pinned source hashes.
 
 | Implementation file | Frozen source and lines | Generalised | Left behind |
 |---|---|---|---|
