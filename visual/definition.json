@@ -4,7 +4,7 @@
   "kind": "component",
   "status": "example",
   "package": "ourapps-ae/video-calls",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "ports": [
     {
       "id": "video-calls-configuration",

@@ -512,7 +512,7 @@
     "name": "ourapps-ae/video-calls",
     "sourceRevision": "19905b75dbea89fbfd424d67fe26c81aaed0e018",
     "sourceTreeDigest": "0000000000000000000000000000000000000000000000000000000000000000",
-    "version": "0.5.1"
+    "version": "0.6.0"
   },
   "infrastructure": {
     "accounts": [
