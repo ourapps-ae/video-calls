@@ -13,6 +13,12 @@
       "template": false
     },
     {
+      "destination": "components/video-calls/server/index.ts",
+      "executable": false,
+      "source": "implementation/server/index.ts",
+      "template": false
+    },
+    {
       "destination": "components/video-calls/server/video.ts",
       "executable": false,
       "source": "implementation/server/video.ts",
@@ -61,6 +67,12 @@
       "template": false
     },
     {
+      "destination": "components/video-calls/verification/index.mjs",
+      "executable": false,
+      "source": "implementation/verification/index.mjs",
+      "template": false
+    },
+    {
       "destination": "components/video-calls/verification/native.py",
       "executable": false,
       "source": "implementation/verification/native.py",
@@ -91,6 +103,12 @@
       "template": false
     },
     {
+      "destination": "components/video-calls/web/index.ts",
+      "executable": false,
+      "source": "implementation/web/index.ts",
+      "template": false
+    },
+    {
       "destination": "components/video-calls/web/video.ts",
       "executable": false,
       "source": "implementation/web/video.ts",
@@ -108,6 +126,7 @@
     "writes": [
       "components/video-calls/android/src/main/java/ae/video/VideoSession.kt",
       "components/video-calls/apple/Sources/VideoSession.swift",
+      "components/video-calls/server/index.ts",
       "components/video-calls/server/video.ts",
       "components/video-calls/verification/adapters.mjs",
       "components/video-calls/verification/apple_results.py",
@@ -116,11 +135,13 @@
       "components/video-calls/verification/browser-process.mjs",
       "components/video-calls/verification/browser.ts",
       "components/video-calls/verification/fixture.mjs",
+      "components/video-calls/verification/index.mjs",
       "components/video-calls/verification/native.py",
       "components/video-calls/verification/prepare-provider.mjs",
       "components/video-calls/verification/provider-runner.mjs",
       "components/video-calls/verification/provider.mjs",
       "components/video-calls/verification/result.mjs",
+      "components/video-calls/web/index.ts",
       "components/video-calls/web/video.ts"
     ]
   },
@@ -162,9 +183,9 @@
       "examples/consumer.ts"
     ],
     "interfaces": [
-      "interfaces/contract.json",
+      "interfaces/media-session.json",
       "interfaces/media-session-verification.json",
-      "interfaces/required-configuration.json",
+      "interfaces/required-video-calls-configuration.json",
       "suitability.json"
     ],
     "licenceNotice": "LICENCE"
@@ -214,6 +235,10 @@
     },
     {
       "executable": false,
+      "path": "implementation/server/index.ts"
+    },
+    {
+      "executable": false,
       "path": "implementation/server/video.ts"
     },
     {
@@ -246,6 +271,10 @@
     },
     {
       "executable": false,
+      "path": "implementation/verification/index.mjs"
+    },
+    {
+      "executable": false,
       "path": "implementation/verification/native.py"
     },
     {
@@ -266,11 +295,11 @@
     },
     {
       "executable": false,
-      "path": "implementation/web/video.ts"
+      "path": "implementation/web/index.ts"
     },
     {
       "executable": false,
-      "path": "interfaces/contract.json"
+      "path": "implementation/web/video.ts"
     },
     {
       "executable": false,
@@ -278,7 +307,11 @@
     },
     {
       "executable": false,
-      "path": "interfaces/required-configuration.json"
+      "path": "interfaces/media-session.json"
+    },
+    {
+      "executable": false,
+      "path": "interfaces/required-video-calls-configuration.json"
     },
     {
       "executable": false,
@@ -491,17 +524,17 @@
   "kind": "component",
   "provides": [
     {
-      "id": "facility",
-      "path": "interfaces/contract.json",
+      "id": "media-session",
+      "path": "interfaces/media-session.json",
       "type": "ae/media-session",
       "version": "1.0.0"
     }
   ],
   "requires": [
     {
-      "id": "configuration",
+      "id": "video-calls-configuration",
       "optional": true,
-      "path": "interfaces/required-configuration.json",
+      "path": "interfaces/required-video-calls-configuration.json",
       "type": "ae/video-calls-configuration",
       "version": "1.0.0"
     }

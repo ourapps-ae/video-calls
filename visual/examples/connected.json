@@ -15,7 +15,7 @@
       "version": "0.5.1",
       "ports": [
         {
-          "id": "configuration",
+          "id": "video-calls-configuration",
           "name": "Host configuration",
           "direction": "input",
           "kind": "interface",
@@ -25,7 +25,7 @@
           "cardinality": "one"
         },
         {
-          "id": "facility",
+          "id": "media-session",
           "name": "Video calls",
           "direction": "output",
           "kind": "interface",
@@ -132,13 +132,13 @@
       },
       "target": {
         "instance": "component",
-        "port": "configuration"
+        "port": "video-calls-configuration"
       }
     },
     {
       "source": {
         "instance": "component",
-        "port": "facility"
+        "port": "media-session"
       },
       "target": {
         "instance": "consumer",

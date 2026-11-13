@@ -14,4 +14,4 @@ Reference revision: `19905b75dbea89fbfd424d67fe26c81aaed0e018` (frozen McInPoker
 
 `videoEnvironment` and the `VideoSettings` and `VideoSecrets` types in `implementation/server/video.ts` are new code with no frozen counterpart (the frozen server read the three environment variables directly).
 
-The manifest marks the `configuration` requirement `optional: true` and the visual definition draws it as not required (video-calls-configuration is a connector for settings the component can also receive in code, so a design may leave it unconnected).
+The manifest marks the `video-calls-configuration` requirement `optional: true` and the visual definition draws it as not required (video-calls-configuration is a connector for settings the component can also receive in code, so a design may leave it unconnected).

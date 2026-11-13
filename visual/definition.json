@@ -7,7 +7,7 @@
   "version": "0.5.1",
   "ports": [
     {
-      "id": "configuration",
+      "id": "video-calls-configuration",
       "name": "Host configuration",
       "direction": "input",
       "kind": "interface",
@@ -17,7 +17,7 @@
       "cardinality": "one"
     },
     {
-      "id": "facility",
+      "id": "media-session",
       "name": "Video calls",
       "direction": "output",
       "kind": "interface",

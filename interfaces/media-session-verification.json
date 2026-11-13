@@ -1465,5 +1465,8 @@
         }
       }
     }
+  },
+  "x-ourapps-modules": {
+    "server": "verification/index.mjs"
   }
 }

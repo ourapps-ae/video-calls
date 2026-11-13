@@ -1,6 +1,6 @@
 # Video calls instructions
 
-Package `ourapps-ae/video-calls` version `0.5.1`. It provides `facility` (type `ae/media-session`, version 1.0.0) and optionally requires `configuration` (type `ae/video-calls-configuration`, version 1.0.0).
+Package `ourapps-ae/video-calls` version `0.5.1`. It provides `media-session` (type `ae/media-session`, version 1.0.0) and optionally requires `video-calls-configuration` (type `ae/video-calls-configuration`, version 1.0.0).
 
 ## For the agent
 
@@ -8,7 +8,7 @@ Package `ourapps-ae/video-calls` version `0.5.1`. It provides `facility` (type `
 - Provider: LiveKit (cloud or self-hosted). Settings: `enabled` (default true), `serviceUrl` (the LiveKit address, https), `keyReference` and `secretReference` (secret references; never ask for or write a value into source). The deployment resolves the references and builds the server environment `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` with `videoEnvironment`.
 - Choose the profile from the `scale` answer (see `suitability.json`): `free` (LiveKit Build plan) up to 100 people connected at once and a hard monthly cap; `paid` (Ship) up to 1,000; `scale` up to 5,000.
 - Supply `configuration`: `roomPrefix` including its separator (match `realtime-rooms`), the authenticated participant identity, the capture callback, sound callbacks and the mode event name (same as `display-mode`).
-- Connect the provided `facility` port to the room service (`realtime-rooms` `Services.videoGrant`) and to each client that shows video. Select `display-mode` alongside so a shared board never captures.
+- Connect the provided `media-session` port to the room service (`realtime-rooms` `Services.videoGrant`) and to each client that shows video. Select `display-mode` alongside so a shared board never captures.
 
 ## For the developer
 

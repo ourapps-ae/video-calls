@@ -99,5 +99,6 @@
       "additionalProperties": false
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "x-ourapps-modules": {}
 }

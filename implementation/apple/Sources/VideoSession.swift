@@ -39,7 +39,7 @@ private struct LiveCameraCapture: CameraCaptureProviding {
 
 @Observable
 @MainActor
-final class VideoSession: RoomDelegate {
+public final class VideoSession: RoomDelegate {
     private(set) var room = Room()
     private var generation = 0
     var connected = false
@@ -137,7 +137,7 @@ final class VideoSession: RoomDelegate {
 
     func waitForCameraUpdate() async { await cameraTask?.value }
 
-    nonisolated func room(_ room: Room, participant: RemoteParticipant, didSubscribeTrack publication: RemoteTrackPublication) {
+    public nonisolated func room(_ room: Room, participant: RemoteParticipant, didSubscribeTrack publication: RemoteTrackPublication) {
         Task { @MainActor in
             (publication.track as? RemoteAudioTrack)?.volume = self.soundOn() ? 1 : 0
             self.tracksVersion += 1
@@ -153,22 +153,22 @@ final class VideoSession: RoomDelegate {
 
     var canReconnect: Bool { !connected && last != nil && (paused || failure != nil) }
 
-    nonisolated func room(_ room: Room, participant: RemoteParticipant, didUnsubscribeTrack publication: RemoteTrackPublication) {
+    public nonisolated func room(_ room: Room, participant: RemoteParticipant, didUnsubscribeTrack publication: RemoteTrackPublication) {
         Task { @MainActor in self.tracksVersion += 1 }
     }
-    nonisolated func room(_ room: Room, participantDidConnect participant: RemoteParticipant) {
+    public nonisolated func room(_ room: Room, participantDidConnect participant: RemoteParticipant) {
         Task { @MainActor in self.tracksVersion += 1 }
     }
-    nonisolated func room(_ room: Room, participantDidDisconnect participant: RemoteParticipant) {
+    public nonisolated func room(_ room: Room, participantDidDisconnect participant: RemoteParticipant) {
         Task { @MainActor in self.tracksVersion += 1 }
     }
-    nonisolated func room(_ room: Room, participant: LocalParticipant, didPublishTrack publication: LocalTrackPublication) {
+    public nonisolated func room(_ room: Room, participant: LocalParticipant, didPublishTrack publication: LocalTrackPublication) {
         Task { @MainActor in self.tracksVersion += 1 }
     }
-    nonisolated func room(_ room: Room, participant: LocalParticipant, didUnpublishTrack publication: LocalTrackPublication) {
+    public nonisolated func room(_ room: Room, participant: LocalParticipant, didUnpublishTrack publication: LocalTrackPublication) {
         Task { @MainActor in self.tracksVersion += 1 }
     }
-    nonisolated func room(_ room: Room, participant: Participant, trackPublication: TrackPublication, didUpdateIsMuted isMuted: Bool) {
+    public nonisolated func room(_ room: Room, participant: Participant, trackPublication: TrackPublication, didUpdateIsMuted isMuted: Bool) {
         Task { @MainActor in self.tracksVersion += 1 }
     }
 
